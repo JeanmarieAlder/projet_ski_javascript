@@ -1,0 +1,63 @@
+* {
+    /* Initialisation des styles */
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1{
+    padding: 50px;
+    background-image: linear-gradient(white, red);
+    color: white;
+    text-align: center;
+}
+
+h2 {
+    padding: 1em 5em 0em 1em;
+    border-bottom: 1px solid black;
+}
+
+#articles h3 {
+    padding: 1em;
+}
+
+nav {
+    background-color: black;
+}
+
+nav li {
+    display: inline-block;
+    padding: 1em;
+}
+
+nav li :checked {
+    background-color: white;
+}
+
+header p {
+    color: darkgrey;
+    width: 100%;
+}
+
+article p{
+    padding: 1em;
+}
+
+aside {
+    text-align: center;
+}
+
+aside h3 {
+    background-color: red;
+    padding: 5px;
+}
+
+aside ul {
+    border: 2px solid red;
+}
+
+footer {
+    background-color: black;
+    text-align: center;
+}

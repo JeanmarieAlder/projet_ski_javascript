@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 60% auto;
+    grid-template-rows: auto;  
+    grid-template-areas: "entete entete"
+                         "contenu ficheS"
+                         "pied pied";
+}
+
+body > header {
+    grid-area: entete;
+}
+
+#articles {
+    grid-area: contenu;
+}
+
+aside {
+    grid-area: ficheS;
+}
+
+footer {
+    grid-area: pied;
+}
