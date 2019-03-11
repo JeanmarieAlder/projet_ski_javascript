@@ -24,8 +24,6 @@ body > header {
 aside {
     grid-area: boxdroite;
     box-shadow: 8px 8px 12px #aaa;
-    float: right;
-	vertical-align: top;
 }
 
 footer {
