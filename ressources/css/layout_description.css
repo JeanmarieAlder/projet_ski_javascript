@@ -6,10 +6,10 @@
 
 body {
     display: grid;
+    grid-gap: 10px;
     grid-template-columns: 60% auto;
-    grid-template-rows: auto;  
     grid-template-areas: "entete entete"
-                         "contenu ficheS"
+                         "contenu boxdroite"
                          "pied pied";
 }
 
@@ -22,7 +22,8 @@ body > header {
 }
 
 aside {
-    grid-area: ficheS;
+    grid-area: boxdroite;
+    box-shadow: 8px 8px 12px #aaa;
 }
 
 footer {

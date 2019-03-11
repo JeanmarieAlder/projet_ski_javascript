@@ -8,7 +8,7 @@
 
 h1{
     padding: 50px;
-    background-image: linear-gradient(white, red);
+    background-image: linear-gradient(white 1%, #dc5124 75%);
     color: white;
     text-align: center;
 }
@@ -23,12 +23,12 @@ h2 {
 }
 
 nav {
-    background-color: black;
+    background-color: #454545;
 }
 
 nav li {
     display: inline-block;
-    padding: 1em;
+    padding: 10px;
 }
 
 nav li :checked {
@@ -38,6 +38,7 @@ nav li :checked {
 header p {
     color: darkgrey;
     width: 100%;
+    font-style: italic;
 }
 
 article p{
@@ -49,15 +50,47 @@ aside {
 }
 
 aside h3 {
-    background-color: red;
+    background-color: #dc5124;
     padding: 5px;
 }
 
 aside ul {
-    border: 2px solid red;
+    border: 2px solid #dc5124;
 }
 
 footer {
     background-color: black;
     text-align: center;
 }
+
+nav a {
+    text-decoration: none;
+    color : white;
+    padding: 10px;
+}
+
+.hamburger {
+    display: none;
+}
+
+.active a {
+    color: #dc5124;
+    background-color: white;
+}
+
+table td {
+    padding: 5px;
+    border: 2px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    margin : 15px;
+}
+
+thead {
+    text-align: center;
+}
+
+
+
