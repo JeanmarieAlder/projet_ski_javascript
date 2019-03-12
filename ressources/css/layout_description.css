@@ -26,6 +26,9 @@ aside {
     box-shadow: 8px 8px 12px #aaa;
     float: right;
 	vertical-align: top;
+	height: 150px;
+	width: 250px;
+	
 }
 
 footer {
