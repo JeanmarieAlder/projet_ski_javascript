@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="ressources/css/style_start.css">
     <link rel="stylesheet" href="ressources/css/style.css">
+    <link rel="stylesheet" href="ressources/css/style_maquettes.css">
 </head>
 <body>
 
@@ -41,14 +42,84 @@
     <section id="articles">
         <article>
             <header>
-                <h2>Maquette visuelle de votre projet</h2>
-                <p>Par Audrey, Jean-Marie et Loris</p>
+                <h2>Maquettes et caractéristiques du jeu</h2>
+                <p>Par Audrey, Loris et Jean-Marie le 13/03/2019 à 09:00</p>
             </header>
-            <p>Lorem ipsum dolor sit amet... <a href="http://www.hevs.ch/">http://www.hevs.ch/</a>,
-                 Ut non eros scelerisque, varius diam a, pulvinar arcu. Phasellus fermentum non arcu ornare ornare. Sed libero mi, rutrum et felis commodo, molestie tempor leo. Duis sit amet erat ut elit faucibus tincidunt sit amet non leo. Quisque dapibus ultricies cursus.</p>
-            <p> Aenean elit nisi, maximus sit amet vulputate non, molestie non odio. Quisque in dolor vel libero <strong>lobortis commodo</strong> ultricies sed nisl. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut pretium ipsum in ipsum venenatis, id elementum quam ultrices. Nam nec enim sagittis, ultrices massa eu, fermentum sem.</p>
-            <p><strong>Nam sed justo tortor:</strong>Aliquam eros ex, porttitor vel aliquam in, imperdiet id felis. Aliquam sed est quis nibh vestibulum porta. Nam ipsum quam, dapibus quis felis quis, pharetra auctor sapien</p>
-                <p>Le code source de l'application est disponible sur le <a href="https://github.com/JeanmarieAlder/projet_ski_javascript">github du projet</a>.</p>
+            <p>Voici un aperçu des images et dimensions à intégrer dans notre jeu suivi de toutes ses caractéristiques techniques.</p>
+            <ul>
+                <li><a href="#sect_maquettes">Maquettes</a></li>
+                <li><a href="#sect_caracteristiques">Caractéristiques techniques</a></li>
+            </ul>
+            <h2 id="sect_maquettes">Maquettes</h2>
+            <h3>Choix des images et dimensions</h3>
+            <p>
+                <img class="resize" src="ressources/images/maquettes/00_dimensions.PNG">
+                <img class="resize" src="ressources/images/maquettes/01_images_dim.PNG">
+            </p>
+            
+            <h3>Arrière-plans et placement initial</h3>
+            <p>
+                <img class="resize" src="ressources/images/maquettes/02_backgrounds.PNG">
+                <img class="resize" src="ressources/images/maquettes/03_initial.PNG">
+            </p>
+            
+            <h3>Exemples de partie</h3>
+            <p>
+                <img class="resize" src="ressources/images/maquettes/04_example1.PNG">
+                <img class="resize" src="ressources/images/maquettes/05_example2.PNG">
+            </p>
+            
+            <h3>Règle d'apparition des objets (tronc d'arbre et portes)</h3>
+            <p>
+                <img class="resize" src="ressources/images/maquettes/06_spawns_obj.PNG">
+            </p>
+            
+            <h3>Comportement des annimaux</h3>
+            <p>
+                <img class="resize" src="ressources/images/maquettes/07_animals.PNG">
+            </p>
+            
+            <!-- partie texte, charactéristiques techniques-->
+            <h2 id="sect_caracteristiques">Caractéristiques techniques</h2>
+            <h3>Général :</h3>
+            <ul>
+                <li>Le canevas est de forme rectangulaire avec les dimensions 288x512px.</li>
+                <li>La direction du joueur va de haut en bas, le but étant d'aller le plus bas possilbe.</li>
+                <li>Le but est d'aller le plus loin possible et de faire le score le plus grand.</li>
+                <li>Le joueur perd lorsqu'il touche un tronc d'arbre ou un animal.</li>
+            </ul>
+            <h3>Mouvements du joueur</h3>
+            <ul>
+                <li>Le joueur peut se déplacer de droite à gauche de l'écran.</li>
+                <li>Le joueur ne peut pas sortir de l'écran.</li>
+                <li>La position du joueur par rapport au sommet de l'écran est fixée à 80px non modifiable.</li>
+                <li>La vitesse du joueur augmente au fil du temps.</li>
+                <li>Le mouvement est reproduit en faisant défiler le fond d'écran et les obstacles.</li>
+            </ul>
+            <h3>Obstacles et apparitions</h3>
+            <ul>
+                <li>Tous les 270px de distance, un élément apparait à l'extérieur du canevas à 600px du sommet.</li>
+                <li>Cette appaition a 80% de chance d'être un tronc d'arbre et 20% de chance d'être des portes.</li>
+                <li>Entre deux apparitions d'éléments, un animal à 20% de chance d'apparaitre.</li>
+                <li>Les animaux peuvent être petits (lapins), moyens (ours) ou grands (mammouths).</li>
+            </ul>
+            <h3>Gestion des scores</h3>
+            <ul>
+                <li>Le score augmente en fonction de la distance parcourue, soit 1 point par pixel parcouru vers le bas.</li>
+                <li>Le joueur gagne 1000 pts supplémentaires s'il passe entre deux portes.</li>
+                <li>Le score final est égal au score du joueur lorsqu'il touche un obstacle.</li>
+            </ul>
+            <h3>Déroulement d'une partie</h3>
+            <ul>
+                <li>Le joueur choisit un pseudo et appuie sur start.</li>
+                <li>L'écran initial du jeu apparait durant quelques secondes avec une musique d'intro.</li>
+                <li>Le jeu commence et le joueur atteint un certain score</li>
+                <li>Le joueur percute un obstacle et un écran de "game over" apparait.</li>
+                <li>Le joueur peut alors choisir de rejouer ou visiter le tableau des meilleurs scores.</li>
+            </ul>
+            
+            
+                <p>Le code source de l'application est disponible sur le <a href="https://github.com/">github du projet</a>.</p>
         </article>
     </section>
     <!-- >Fin zone pour votre contenu -->
