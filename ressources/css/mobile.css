@@ -1,0 +1,9 @@
+@media screen and (max-width: 468px) {
+    main {
+        flex-direction: column;
+    }
+    
+    aside {
+        display: none;
+    }
+}
