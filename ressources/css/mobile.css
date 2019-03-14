@@ -1,9 +1,41 @@
-@media screen and (max-width: 468px) {
-    main {
-        flex-direction: column;
+@media only screen and (max-width: 500px) {
+   
+    
+    body {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-areas: "titre"
+            "menu"
+            "contenuM"
+            "foot";
     }
     
+    nav li {
+        display: block;
+        text-align: center;
+    }
+    
+    body > header {
+        width: 100%;
+        grid-area: titre;
+    }
+
+    #articles {
+        grid-area: contenuM;
+    }
+
     aside {
         display: none;
     }
+
+    footer {
+        grid-area: foot;
+    }
+    
+    img, .resize {
+    max-width: 100%;
+    height: auto;
+}
+    
+    
 }
