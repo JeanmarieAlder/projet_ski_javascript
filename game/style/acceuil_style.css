@@ -1,0 +1,40 @@
+body{
+    background-image: url(../../images/backgroundMountain.jpg);
+    background-repeat:no-repeat;
+    margin: 0;
+    display: flex;
+}
+
+h1{
+    font-family: OCR A Std, monospace;
+}
+
+#bloc{
+    width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+    background-color: #4169e1; 
+    padding: 50px;
+    border-radius: 20px;
+    border : solid black;
+    
+}
+
+button{
+    padding: 10px;
+    width: 200px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    display: block;
+    border-radius: 20px;
+    border-color: black;
+    font-family: OCR A Std, monospace;
+}
+
+#skiRight, #skiLeft {
+    display: none;
+}
