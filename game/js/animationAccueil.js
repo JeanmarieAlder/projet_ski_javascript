@@ -1,47 +1,36 @@
-var position = 0;
-var right = false;
-var left = true;
-
-function moveOneSkieur(){
+window.addEventListener("load", function(event){
     
-    var skiRight = document.getElementById("skiRight");
-    var skiLeft = document.getElementById("skiLeft");
-    var fin = position + 20;
+    var hautimage = 0;
+    var gaucheimage = 0;
     
-    //Quand on arrive au bout du déplacement
-    if(position == fin){
+    
+    while(true){
         
-        //On change le skieur d'apparence (virage)
-        if(right = true){
-            right = false;
-            left = true;
-            document.querySelector('#skiLeft').display = "";
-            document.querySelector('#skiRight').display = "none";
-        }else{
-            right = true;
-            left = false;
-            document.querySelector('#skiLeft').display = "none";
-            document.querySelector('#skiRight').display = "";
+        //Descendre à droite
+        for(i=0; i<50; i++){
+            if(document.getElementById){
+            hautimage++;
+            gaucheimage = gaucheimage+2;
+            document.getElementById("skiRight").style.top = hautimage + "px";
+            document.getElementById("skiRight").style.left = gaucheimage + "px";
+            console.log(hautimage);
+            console.log(gaucheimage);
+            }   
         }
         
-    }else{
-        
-        //On avance 
-        position++;
-        
-        //Déplacement si droite 
-        if(right){
-            document.querySelector('#skiRight').style.top = position + "px"; 
-            document.querySelector('#skiRight').style.right = position + "px";
-        //Déplacement si gauche    
-        }else{
-            document.querySelector('#skiLeft').style.top = position + "px"; 
-            document.querySelector('#skiLeft').style.left = position + "px";  
+        //Descendre à gauche
+        for(i=0; i<50; i++){
+            if(document.getElementById){
+            hautimage++;
+            gaucheimage = gaucheimage-2;
+            document.getElementById("skiRight").style.top = hautimage + "px";
+            document.getElementById("skiRight").style.left = gaucheimage + "px";
+            console.log(hautimage);
+            console.log(gaucheimage);
+            }   
         }
+        
     }
     
-    //On rappelle la fonction
-    moveOneSkieur();
-}
+})
 
-this.onmouseover = moveOneSkieur();

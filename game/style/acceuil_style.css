@@ -35,6 +35,12 @@ button{
     font-family: OCR A Std, monospace;
 }
 
-#skiRight, #skiLeft {
+#skiLeft{
     display: none;
+}
+
+#skiRight{
+    position: absolute;
+    /*top: 50px;
+    left :100px;*/
 }
