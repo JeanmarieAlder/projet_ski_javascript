@@ -3,23 +3,19 @@ body{
     background-repeat:no-repeat;
     margin: 0;
     display: flex;
-}
-
-h1{
     font-family: OCR A Std, monospace;
 }
 
-#bloc{
+h1{
+    text-align: center;
+}
+
+#blocDemarrage{
     width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50vh;
-    transform: translateY(-50%);
-    background-color: #4169e1; 
-    padding: 50px;
-    border-radius: 20px;
-    border : solid black;
-    
+}
+
+.btn{
+    cursor: pointer;
 }
 
 button{
@@ -35,12 +31,21 @@ button{
     font-family: OCR A Std, monospace;
 }
 
-#skiLeft{
-    display: none;
+#regleJeu p{
+    line-height: 1.5;
 }
 
-#skiRight{
-    position: absolute;
-    /*top: 50px;
-    left :100px;*/
+#regleJeu{
+    width: 850px;
+}
+
+.bloc{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+    background-color: #4169e1; 
+    padding: 20px;
+    border-radius: 20px;
+    border : solid black;
 }

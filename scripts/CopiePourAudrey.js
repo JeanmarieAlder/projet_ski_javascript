@@ -1,3 +1,59 @@
+window.onload = function() {
+    
+    
+    //PARTIE DISPLAY ---------------------------------------------
+    //Masquer ce qu'il faut au début
+    document.getElementById("regleJeu").style.display = "none";
+    document.getElementById("jeu").style.display = "none";
+    document.getElementById("reglage").style.display = "none";
+    
+
+    //Variables
+    var redCross = document.getElementById("redCrossRegle");
+    var redCrossGame = document.getElementById("redCrossGame");
+    var redCrossReglage = document.getElementById("redCrossReglage");
+    var btnRegleJeu = document.getElementById("regleJeubtn");
+    var btnReglage = document.getElementById("reglagebtn");
+    var btnPlay = document.getElementById("playbtn");
+    
+    //Initialisation listener
+    redCross.addEventListener("click", clicRedCross);
+    btnRegleJeu.addEventListener("click", clicRegleJeuBtn);
+    btnReglage.addEventListener("click", clicReglageBtn);
+    btnPlay.addEventListener("click", clicPlayBtn);
+    redCrossGame.addEventListener("click", clicRedCrossGame);
+    redCrossReglage.addEventListener("click", clicRedCrossReglage);
+    
+    //Listener
+    
+    //Fermer le bloc de règle de jeu
+    function clicRedCross()
+    {
+        document.getElementById("regleJeu").style.display = "none";
+        document.getElementById("blocDemarrage").style.display = "";
+    }
+    
+    //Fermer Réglages
+    function clicRedCrossReglage()
+    {
+        document.getElementById("reglage").style.display = "none";
+        document.getElementById("blocDemarrage").style.display = "";
+    }
+    
+    //Ouvrir règle du jeu
+    function clicRegleJeuBtn()
+    {
+        document.getElementById("regleJeu").style.display = "";
+        document.getElementById("blocDemarrage").style.display = "none";
+    }
+    
+    //Ouvrir le jeu
+    function clicPlayBtn(){
+        document.getElementById("jeu").style.display = "";
+        document.getElementById("blocDemarrage").style.display = "none";
+        
+         //PARTIE JEU -------------------------------------------------------
+
 var cvas = document.getElementById("canvas"); //get reference to canvas
 var ctx = cvas.getContext("2d"); //get  context of the page
 
@@ -150,3 +206,22 @@ function draw()
 }
 
 draw();
+    
+    //-------------------------------------------------------------------
+        
+    }
+    
+    //Ouvrir les réglages
+    function clicReglageBtn(){
+        document.getElementById("reglage").style.display = "";
+        document.getElementById("blocDemarrage").style.display = "none";
+    }
+    
+    //Ouvrir les réglages
+    function clicRedCrossGame(){
+        document.getElementById("blocDemarrage").style.display = "";
+        document.getElementById("jeu").style.display = "none";
+    }
+    //-------------------------------------------------------------------
+    
+}

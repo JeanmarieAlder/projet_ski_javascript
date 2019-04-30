@@ -6,28 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style/acceuil_style.css">
     <!--<script type="text/javascript" src="./js/animationAccueil.js"></script>-->
+    <script type="text/javascript" src="../scripts/CopiePourAudrey.js"></script>
     
 </head>
     
 <body>
-    
-    <div id="animationLeft">
-        <img id="skiLeft" src="../ressources/images/game/skier_left.png">
-        <img id="skiRight" src="../ressources/images/game/skier_right.png">
-    </div>
 
-    <div id="bloc">
-        <h1>La descente de ski</h1>
-        <button>PLAY</button>
-        <button>REGLES DU JEU</button>
-        <button>REGLAGES</button>
+    <div id="blocDemarrage" class="bloc">
+        <h1>Extrem downhill skiing</h1>
+        <button class="btn" id="playbtn">PLAY</button>
+        <button class="btn" id="regleJeubtn">REGLES DU JEU</button>
+        <button class="btn" id="reglagebtn">REGLAGES</button>
     </div>
     
-    <!--<div id="animationRight">
-        <img src="../ressources/images/game/bear.png">
-        <img src="../ressources/images/game/bunny.png">
-        <img src="../ressources/images/game/mammoth.png">
-    </div>-->
+    <div id="regleJeu" class="bloc">
+        
+        <img id="redCrossRegle" class="btn" src="../ressources//images/close.png">
+        
+        <h1>Comment jouer ?</h1>
+        
+        <h2>Règles du jeu</h2>
+        
+        <p>Descends la piste le plus vite possible. <br/> Mais attention il faut que tu passes toutes les portes, les bleues <img src="../ressources/images/game/flags_blue.png"/> et les rouges <img src="../ressources/images/game/flags_red.png"/>. <br/>
+        Attention des animaux sauvages se baladent régulièrement sur la piste, il faut les éviter. Tu peux rencontrer des lapins <img src="../ressources/images/game/bunny.png"/>, des ours <img src="../ressources/images/game/bear.png"/>, et même des mamouthes <img src="../ressources/images/game/mammoth.png"/>. <br/>
+        La piste n'est pas en très bonne état, pour éviter d'abimer tes skis, évite aussi les branches <img src="../ressources/images/game/wood.png"/>.</p>
+    
+        <h2>Commandes</h2>
+        
+        <p>Utilise les flèches de ton clavier pour te diriger. <br/> <img src="../ressources/images/keyboard.png"/></p>
+        
+    </div>
+    
+    <div class="bloc" id="jeu">
+        <img class="btn" id="redCrossGame" src="../ressources/images/close.png">
+        <br />
+        <canvas id="canvas" width="288" height="512"></canvas>
+    </div>
+    
+    
+    <div class="bloc" id="reglage">
+        
+        <img class="btn" id="redCrossReglage" src="../ressources/images/close.png">
+        
+        <h1>Règlages</h1>
+        
+        <form>
+            <p>Choisissez votre niveau : </p>
+            <input type="radio" name="level" value="Niveau1" checked>Niveau 1<br/>
+            <input type="radio" name="level" value="Niveau2">Niveau 2<br/>
+            <input type="radio" name="level" value="Niveau3">Niveau 3<br/>
+        </form>
+        
+    </div>
+    
     
 </body>    
     
