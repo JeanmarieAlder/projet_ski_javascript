@@ -1,30 +1,100 @@
 window.onload = function() {
     
+    //Objet player
+    function Player(pseudo, score){
+        var pseudo = pseudo;
+        var score = score;
+    }
+    
     
     //PARTIE DISPLAY ---------------------------------------------
     //Masquer ce qu'il faut au début
     document.getElementById("regleJeu").style.display = "none";
     document.getElementById("jeu").style.display = "none";
     document.getElementById("reglage").style.display = "none";
-    
+    document.getElementById("score").style.display = "none";
+    document.getElementById("ouskier").style.display = "none";
+    document.getElementById("player").style.display = "none";
 
     //Variables
     var redCross = document.getElementById("redCrossRegle");
     var redCrossGame = document.getElementById("redCrossGame");
     var redCrossReglage = document.getElementById("redCrossReglage");
+    var redCrossScore = document.getElementById("redCrossScore")
+    var redCossOuSkier = document.getElementById("redCrossOuSkier");
     var btnRegleJeu = document.getElementById("regleJeubtn");
     var btnReglage = document.getElementById("reglagebtn");
     var btnPlay = document.getElementById("playbtn");
+    var btnScore = document.getElementById("scoresbtn");
+    var btnouskier = document.getElementById("ouskierbtn");
+    var btnvaliderplayer = document.getElementById("validerPlayer");
+    var btnfin = document.getElementById("finbtn");
+    
+    var inputScore = document.getElementById("scoreField");
+    var camera = document.getElementById("camera");
+    
+    var avatar1 = document.getElementById("avatar1");
     
     //Initialisation listener
     redCross.addEventListener("click", clicRedCross);
     btnRegleJeu.addEventListener("click", clicRegleJeuBtn);
     btnReglage.addEventListener("click", clicReglageBtn);
     btnPlay.addEventListener("click", clicPlayBtn);
+    btnScore.addEventListener("click", clicScoreBtn);
+    btnouskier.addEventListener("click", clicOuSkier);
     redCrossGame.addEventListener("click", clicRedCrossGame);
     redCrossReglage.addEventListener("click", clicRedCrossReglage);
+    redCrossScore.addEventListener("click", clicRedCrossScore);
+    redCossOuSkier.addEventListener("click", clicRedCrossOuSkier);
+    btnvaliderplayer.addEventListener("click", clicValiderPlayer);
+    btnfin.addEventListener("click", clicFin);
     
-    //Listener
+    //DRAG AND DROP - MARCHE PAS POUR LE MOMENT 
+    camera.addEventListener("drop", function(e){
+        e.preventDefault;        
+        
+        var target = e.target,
+        draggedElement = dndHandler.draggedElement, 
+        clonedElement = draggedElement.cloneNode(true);
+        
+    });
+    
+    
+    //Simuler la fin du jeu - TEMPORAIRE
+    function clicFin(){
+        document.getElementById("player").style.display = "";
+        document.getElementById("jeu").style.display = "none";
+        
+        //Recupération du score et affichage
+        inputScore.value = score;
+    }
+    
+    //Fermer player
+    function clicValiderPlayer(){
+        document.getElementById("player").style.display = "none";
+        document.getElementById("blocDemarrage").style.display = "";
+        
+        //Gestion score
+        var pseudo = document.getElementById("pseudo").value;
+        
+        //Création du player
+        var player = new Player(pseudo, score);
+        //Enregistrement dans la BDD
+        localStorage.setItem('player', JSON.stringify(player));
+        
+    }
+    
+    //Fermer ou skier
+    function clicRedCrossOuSkier(){
+        document.getElementById("ouskier").style.display = "none";
+        document.getElementById("blocDemarrage").style.display = "";
+    }
+    
+    //Ouvrir ou skier 
+    function clicOuSkier(){
+        document.getElementById("ouskier").style.display = "";
+        document.getElementById("blocDemarrage").style.display = "none";
+    }
     
     //Fermer le bloc de règle de jeu
     function clicRedCross()
@@ -40,6 +110,13 @@ window.onload = function() {
         document.getElementById("blocDemarrage").style.display = "";
     }
     
+    //Fermer scores
+    function clicRedCrossScore()
+    {
+        document.getElementById("score").style.display = "none";
+        document.getElementById("blocDemarrage").style.display = "";
+    }
+    
     //Ouvrir règle du jeu
     function clicRegleJeuBtn()
     {
@@ -47,12 +124,38 @@ window.onload = function() {
         document.getElementById("blocDemarrage").style.display = "none";
     }
     
+    //Ouvrir score
+    function clicScoreBtn()
+    {
+        
+        //Display les scores dans le tableau
+        
+        
+        document.getElementById("score").style.display = "";
+        document.getElementById("blocDemarrage").style.display = "none";
+    }
+    
     //Ouvrir le jeu
     function clicPlayBtn(){
         document.getElementById("jeu").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
+    }
+    
+    //Ouvrir réglages
+    function clicReglageBtn(){
+        document.getElementById("reglage").style.display = "";
+        document.getElementById("blocDemarrage").style.display = "none";
+    }
         
-         //PARTIE JEU -------------------------------------------------------
+    //Fermer game
+    function clicRedCrossGame()
+    {
+        document.getElementById("game").style.display = "none";
+        document.getElementById("blocDemarrage").style.display = "";
+    }
+//--------------------------------------------------------------------------    
+    
+//PARTIE JEU -------------------------------------------------------
 
 var cvas = document.getElementById("canvas"); //get reference to canvas
 var ctx = cvas.getContext("2d"); //get  context of the page
@@ -207,21 +310,5 @@ function draw()
 
 draw();
     
-    //-------------------------------------------------------------------
-        
-    }
-    
-    //Ouvrir les réglages
-    function clicReglageBtn(){
-        document.getElementById("reglage").style.display = "";
-        document.getElementById("blocDemarrage").style.display = "none";
-    }
-    
-    //Ouvrir les réglages
-    function clicRedCrossGame(){
-        document.getElementById("blocDemarrage").style.display = "";
-        document.getElementById("jeu").style.display = "none";
-    }
-    //-------------------------------------------------------------------
     
 }

@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style/acceuil_style.css">
     <!--<script type="text/javascript" src="./js/animationAccueil.js"></script>-->
+    <script type="text/javascript" src="../scripts/dragAndDrop.js"></script>
     <script type="text/javascript" src="../scripts/CopiePourAudrey.js"></script>
+    
     
 </head>
     
@@ -15,8 +17,10 @@
     <div id="blocDemarrage" class="bloc">
         <h1>Extrem downhill skiing</h1>
         <button class="btn" id="playbtn">PLAY</button>
+        <button class="btn" id="scoresbtn">SCORES</button>
         <button class="btn" id="regleJeubtn">REGLES DU JEU</button>
         <button class="btn" id="reglagebtn">REGLAGES</button>
+        <button class="btn" id="ouskierbtn">OU SKIER ?</button>
     </div>
     
     <div id="regleJeu" class="bloc">
@@ -41,6 +45,8 @@
         <img class="btn" id="redCrossGame" src="../ressources/images/close.png">
         <br />
         <canvas id="canvas" width="288" height="512"></canvas>
+        <!--TEMPORAIRE SIMULE LA FIN DU JEU-->
+        <button class="btn" id="finbtn">FIN</button>
     </div>
     
     
@@ -57,6 +63,52 @@
             <input type="radio" name="level" value="Niveau3">Niveau 3<br/>
         </form>
         
+    </div>
+    
+    <div class="bloc" id="score">
+        
+        <img class="btn" id="redCrossScore" src="../ressources/images/close.png">
+        
+        <h1>Meilleurs scores</h1>
+        
+        <!-- A remplir et construire en js plus tard-->
+        <table>
+            <tr><td>1</td><td>Joueur 1</td><td>03:00:00</td></tr>
+            <tr><td>2</td><td>Joueur 2</td><td>03:00:00</td></tr>
+            <tr><td>3</td><td>Joueur 3</td><td>03:00:00</td></tr>
+            <tr><td>4</td><td>Joueur 4</td><td>03:00:00</td></tr>
+            <tr><td>5</td><td>Joueur 5</td><td>03:00:00</td></tr>
+        </table>
+        
+        
+    </div>
+    
+    <div class="bloc" id="ouskier">
+        <img class="btn" id="redCrossOuSkier" src="../ressources/images/close.png">
+        <!--Mettre la map-->
+    </div>
+    
+    <div class="bloc" id="player">
+        <h1>GAME OVER</h1>
+        
+        <table>
+            <tr>
+                <td><img class="avatar" id="avatar1" src="../ressources/images/Avatar/1.png"></td>
+                <td><img class="avatar" id="avatar2"  src="../ressources/images/Avatar/2.png"></td>
+                <td><img class="avatar" id="avatar3"  src="../ressources/images/Avatar/3.png"></td>
+                <td><img class="avatar" id="avatar4"  src="../ressources/images/Avatar/4.png"></td>
+                <td><img class="avatar" id="avatar5"  src="../ressources/images/Avatar/5.png"></td>
+                <td><img class="avatar" id="avatar6"  src="../ressources/images/Avatar/6.png"></td>
+            </tr>
+        </table>
+        
+            <p>Glisse et dépose ton avatar dans le carré ci-dessous.</p>
+            <img id="camera" src="../ressources/images/camera.png">
+            <br/> <br>
+            <label>Score : </label><input type="text" id="scoreField" readonly/> 
+            <br/> <br>
+            <label>Pseudo : </label><input type="text" id="pseudo"/>
+        <button class="btn" id="validerPlayer">VALIDER</button>
     </div>
     
     
