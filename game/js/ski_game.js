@@ -1,6 +1,6 @@
 /*eslint-env browser*/
 
-(function() {
+(function () {
     //Load canvas and context
     var cvas = document.getElementById("canvas"); //get reference to canvas
     var ctx = cvas.getContext("2d"); //get  context of the page
@@ -82,16 +82,9 @@
     flagsRed.src = "./images/game/flags_red.png";
     wood.src = "./images/game/wood.png";
 
-    //image dimensions (for hitboxes)
-    var playerSizeX = skierFront.width; //same width when turning
-    var playerSizeY = skierFront.height; //same height when turning
-    var bunnySizeX = bunny.width;
-    var bunnySizeY = bunny.height;
-    var bearSizeX = bear.width;
-    var bearSizeY = bear.height;
-    var mammothSizeX = mammoth.width;
-    var mammothSizeY = mammoth.height;
 
+
+    
 
     //Variables and objects
     
@@ -104,9 +97,10 @@
     var player = new Player(6, 145, 80);
     
     var obstacleInitialY = 600;
-    var distBetweenObstacles = 500;
-    var obstableSpawnPoint = obstacleInitialY - distBetweenObstacles;
-    var monsterSpawnPoint = obstacleInitialY - (distBetweenObstacles/2);
+    var distBetweenObstacles = 400;
+    var obstacleSpawnPoint = obstacleInitialY - distBetweenObstacles;
+    var monsterSpawnPoint = obstacleInitialY - (Math.floor(distBetweenObstacles/2));
+    var mammothConstraint; // to determine which side is the mammoth
     var newX; //used to determine next x spawn position
     var obstacle = [];
     obstacle[0] = {
@@ -115,6 +109,8 @@
         lastY : obstacleInitialY,
         type : 1 //1 = tree, 2 = blue door, 3= red door
     }
+    
+    var monster = [];
 
     var initial = true; //If the background is the top of the mountain
     var keyPressed = 0; //retrieves the key pressed by player
@@ -172,7 +168,7 @@
         }
 
         //obstacle spawn iteration
-        for(var i = (obstacle.length - 1); i > (obstacle.length - 3) && i >= 0; i--){
+        for(var i = (obstacle.length - 1); i >= 0 && i > (obstacle.length - 3); i--){
             if(obstacle[i].type == 1){
                 ctx.drawImage(wood, obstacle[i].x, obstacle[i].y);
             }else if(obstacle[i].type == 2){
@@ -184,9 +180,9 @@
             obstacle[i].lastY = obstacle[i].y; //sets previous y position
             obstacle[i].y -= player.speed; //sets next y position
             
-            //Check if spawnPoint is reached
-            if(obstacle[i].y <= obstableSpawnPoint
-              && obstacle[i].lastY > obstableSpawnPoint){
+            //Check if spawnPoint is reached for obstacle
+            if(obstacle[i].y <= obstacleSpawnPoint
+              && obstacle[i].lastY > obstacleSpawnPoint){
                 //Create a new obstacle, 1/5 door and 4/5 wood
                 if(Math.floor(Math.random()*5) == 0){
                     newX = getRandomPosDoor();
@@ -198,7 +194,7 @@
                             y : obstacleInitialY,
                             lastY : obstacleInitialY,
                             type : 2
-                        }) 
+                        }) ;
                     }else{
                         //red door creation
                         obstacle.push({
@@ -206,7 +202,7 @@
                             y : obstacleInitialY,
                             lastY : obstacleInitialY,
                             type : 3
-                        }) 
+                        }) ;
                     }
                 }else{
                     newX = getRandomPosWood();
@@ -220,10 +216,62 @@
                 }
                 
             }
+            //Check if spawn point is reached for monsters
+            if(obstacle[i].y <= monsterSpawnPoint
+              && obstacle[i].lastY > monsterSpawnPoint){
+                if(Math.floor(Math.random()*5) == 0){
+                    switch(Math.floor(Math.random()*3) + 1){
+                        case 1:
+                            monster.push({
+                                x : Math.floor(Math.random()*189) + 35,
+                                y : obstacleInitialY,
+                                type : 1 //1 = bunny
+                            });
+                            break;
+                        case 2:
+                            monster.push({
+                                x : Math.floor(Math.random()*189) + 35,
+                                y : obstacleInitialY,
+                                type : 2 //2 = bear
+                            });
+                            break;
+                        case 3:
+                            if(Math.floor(Math.random()*2) == 0){
+                                mammothConstraint = 30;
+                            }else{
+                                mammothConstraint = 190;
+                            }
+                            monster.push({
+                                x : Math.floor(Math.random()*50) + 35,
+                                y : obstacleInitialY,
+                                type : 3 //3 = mammoth
+                            });
+                            break;
+                    }
+                }
+            }
+        }
+        
+        //Iteration for all monsters movements (only the two last are updated)
+        for(i = monster.length - 1; i >= 0 && i > (monster.length - 3); i--){
+            switch(monster[i].type){
+                case 1 :
+                    ctx.drawImage(bunny, monster[i].x, monster[i].y);
+                    break;
+                case 2 :
+                    ctx.drawImage(bear, monster[i].x, monster[i].y);
+                    break;
+                case 3 :
+                    ctx.drawImage(mammoth, monster[i].x, monster[i].y);
+                    break;
+            }
+            monster[i].lastY = monster[i].y;
+            monster[i].y -= player.speed;
+            
         }
 
         bgY -= player.speed;
-        score += player.speed;
+        score += Math.ceil(player.speed / 2);
 
         if(bgY <= -512){
             bgY = 0 - (-512 - bgY);
@@ -242,6 +290,9 @@
 
         ctx.fillText("Score: " + score, 10,20); //Score display
         ctx.fillText("Speed: " + player.speed, 10, 40)
+        
+        //Check if player is game over
+        checkGameOver();
 
         requestAnimationFrame(draw);
     }
@@ -259,6 +310,70 @@
         }
     }
     
+    
+    
+    //checks if the player touches an obstacle or doesn't pass on a door
+    function checkGameOver()
+    {
+        for(var i = monster.length - 1; i >= 0 && i > (monster.length - 3); i--){
+            switch(monster[i].type){
+                case 1:
+                    checkHitBox(monster[i].x, monster[i].y, bunny.width, bunny.height);
+                    break;
+                case 2:
+                    checkHitBox(monster[i].x, monster[i].y, bear.width, bear.height);
+                    break;
+                case 3:
+                    checkHitBox(monster[i].x, monster[i].y, mammoth.width, mammoth.height);
+            }
+        }
+        
+        for(i = obstacle.length - 1; i >= 0 && i > (obstacle.length - 3); i--){
+            switch(obstacle[i].type){
+                case 1:
+                    checkHitBox(obstacle[i].x, obstacle[i].y, wood.width, wood.height);
+                    break;
+                default:
+                    checkHitBoxDoor(obstacle[i].x, obstacle[i].y, obstacle[i].lastY);
+                    break;
+            }
+        }
+    }
+    
+    var px; //player bottom left X
+    var py; //player bottom left and right Y 
+    var plx; //player bottom right X
+    function checkHitBox(mx, my, mlx, mly){
+        //console.log(mx + " " + my + " " + mlx + " " + mly);
+        //Monster hitbox : mx and my = top left corner position,
+        //      pmx and pmy: length
+        px = player.posX;
+        py = player.posY + skierFront.height;
+        plx = player.posX + skierFront.width;
+        
+        if((py >= my && py <= my + mly)
+          && ((px >= mx && px <= mx + mlx) || 
+              (plx >= mx && plx <= mx + mlx) ||
+              (px <= mx && plx >= mx + mlx))){
+            console.log("GAME OVER !!!!!!!!!!!!!!!");
+        }
+    }
+    function checkHitBoxDoor(mx, my, mly){
+        px = player.posX;
+        py = player.posY + skierFront.height;
+        plx = player.posX + skierFront.width;        
+        
+        
+        if(py <= mly && py >= my){
+            if(px >= mx && plx <= mx + flagsBlue.width) {
+            console.log("passed");
+            }else{
+            console.log("GAME OVER !!!!!!");
+            }
+        }
+            
+    }
+    
     //Checks if all images are loaded
     function imagesReady()
     {
@@ -270,7 +385,6 @@
             return false; //images not loaded
         }
     }
-        
 
     while(!(imagesReady)){
         //checks if images are ready
