@@ -50,7 +50,7 @@ var keyPressed = 0;
 var leftKeyPressed = false;
 var rightKeyPressed = false;
 
-var playerSpeed = 2;
+var playerSpeed = 10;
 var pX = 130; //player's position from left side
 
 var pY = 80; //player's position from top, constant
@@ -61,11 +61,6 @@ var score = 0;
 var bgY = 0;
 var treeY = 600;
 
-var obstacle = [];
-obstacle[0] = {
-    x : 0,
-    y : 600
-};
 
 
 //key pressed
