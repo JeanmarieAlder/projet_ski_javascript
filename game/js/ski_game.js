@@ -1,34 +1,85 @@
+/*eslint-env browser*/
+
+//Load canvas and context
 var cvas = document.getElementById("canvas"); //get reference to canvas
 var ctx = cvas.getContext("2d"); //get  context of the page
 
 //Text configuration
 ctx.font = "15px Verdana";
 
-//load images
+//load images (11 total)
 
+//Variables creation
 var bg = new Image();
+var bgReady = false;
 var bgStart = new Image();
+var bgStartReady = false;
 var skierFront = new Image();
+var skierFrontReady = false;
 var skierLeft = new Image();
+var skierLeftReady = false;
 var skierRight = new Image();
+var skierRightReady = false;
 var bear = new Image();
+var bearReady = false;
 var mammoth = new Image();
+var mammothReady = false;
 var bunny = new Image();
+var bunnyReady = false;
 var flagsBlue = new Image();
+var flagsBlueReady = false;
 var flagsRed = new Image();
+var flagsRedReady = false;
 var wood = new Image();
+var woodReady = false;
 
-bg.src = "/ressources/images/game/background.png";
-bgStart.src = "/ressources/images/game/background_start.png";
-skierFront.src = "/ressources/images/game/skier_front.png";
-skierLeft.src = "/ressources/images/game/skier_left.png";
-skierRight.src = "/ressources/images/game/skier_right.png"
-bear.src = "/ressources/images/game/bear.png";
-mammoth.src = "/ressources/images/game/mammoth.png";
-bunny.src = "/ressources/images/game/bunny.png";
-flagsBlue.src = "/ressources/images/game/flags_blue.png";
-flagsRed.src = "/ressources/images/game/flags_red.png";
-wood.src = "/ressources/images/game/wood.png";
+//Make sure images are loaded before starting the page
+bg.onload = function () {
+	bgReady = true;
+};
+bgStart.onload = function () {
+	bgStartReady = true;
+};
+skierFront.onload = function () {
+	skierFrontReady = true;
+};
+skierLeft.onload = function () {
+	skierLeftReady = true;
+};
+skierRight.onload = function () {
+	skierRightReady = true;
+};
+bear.onload = function () {
+	bearReady = true;
+};
+mammoth.onload = function () {
+	mammothReady = true;
+};
+bunny.onload = function () {
+	bunnyReady = true;
+};
+flagsBlue.onload = function () {
+	flagsBlueReady = true;
+};
+flagsRed.onload = function () {
+	flagsRedReady = true;
+};
+wood.onload = function () {
+	woodReady = true;
+};
+
+
+bg.src = "./images/game/background.png";
+bgStart.src = "./images/game/background_start.png";
+skierFront.src = "./images/game/skier_front.png";
+skierLeft.src = "./images/game/skier_left.png";
+skierRight.src = "./images/game/skier_right.png"
+bear.src = "./images/game/bear.png";
+mammoth.src = "./images/game/mammoth.png";
+bunny.src = "./images/game/bunny.png";
+flagsBlue.src = "./images/game/flags_blue.png";
+flagsRed.src = "./images/game/flags_red.png";
+wood.src = "./images/game/wood.png";
 
 //image dimensions (for hitboxes)
 var playerSizeX = skierFront.width; //same width when turning
@@ -48,7 +99,7 @@ var keyPressed = 0;
 var leftKeyPressed = false;
 var rightKeyPressed = false;
 
-var playerSpeed = 10;
+var playerSpeed = 6;
 var pX = 130; //player's position from left side
 
 var pY = 80; //player's position from top, constant
@@ -93,7 +144,7 @@ function keyUpHandler(event)
             rightKeyPressed = false;
             break;
             
-    }
+        }
 }
 
 //draw images
@@ -111,9 +162,6 @@ function draw()
     
     
     ctx.drawImage(wood, 0, treeY);
-    
-    
-    
     
     bgY -= playerSpeed;
     treeY -= playerSpeed;
@@ -144,4 +192,19 @@ function draw()
     requestAnimationFrame(draw);
 }
 
+function imagesReady()
+{
+    if(bgReady && bgStartReady && skierFrontReady && skierLeftReady && skierRightReady
+      && bearReady && mammothReady && bunnyReady && flagsBlueReady && flagsRedReady
+      && woodReady){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+while(!(imagesReady)){
+    //checks if images are ready
+    //Do nothing in the meantime
+}
 draw();
