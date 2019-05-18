@@ -1,8 +1,6 @@
 var cvas = document.getElementById("canvas"); //get reference to canvas
 var ctx = cvas.getContext("2d"); //get  context of the page
 
-
-
 //Text configuration
 ctx.font = "15px Verdana";
 
