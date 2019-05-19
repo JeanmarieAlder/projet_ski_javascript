@@ -83,8 +83,8 @@
     wood.onload = function () {
         woodReady = true;
     };
-
-
+    
+    //Get image by URI
     bg.src = "./images/game/background.png";
     bgStart.src = "./images/game/background_start.png";
     skierFront.src = "./images/game/skier_front.png";
@@ -99,13 +99,11 @@
     flagsBlue.src = "./images/game/flags_blue.png";
     flagsRed.src = "./images/game/flags_red.png";
     wood.src = "./images/game/wood.png";
-
-
-
     
-
+    //-------------------------------------------------------------------------
     //Variables and objects
     
+    //Player object
     function Player(speed, posX, posY)
     {
         this.speed = speed;
@@ -115,17 +113,19 @@
         this.breakSpeed = 0;
         this.goFrame = 0;
     }
-    var player = new Player(10, 145, 80);
+    var player = new Player(8, 145, 80); //player instanciation (only one per game)
     
-    var obstacleInitialY = 600;
-    var distBetweenObstacles = 410;
+    var obstacleInitialY = 600; //Y position of spawning objects
+    var distBetweenObstacles = 410; //Distance between obstacles
+    //Y position of last obstacle where a new obstacle is created
     var obstacleSpawnPoint = obstacleInitialY - distBetweenObstacles;
+    //Y position of last obstacle where a monster has a chance to be created
     var monsterSpawnPoint = obstacleInitialY - (Math.floor(distBetweenObstacles/2));
     var mammothConstraint; // to determine which side is the mammoth
     var newX; //used to determine next x spawn position
-    var obstacle = [];
-    obstacle[0] = {
-        x : 0,
+    var obstacle = []; //Stores all obstacles (trees and doors)
+    obstacle[0] = { //First obstacle (always static)
+        x : -10,
         y : obstacleInitialY,
         lastY : obstacleInitialY,
         type : 1 //1 = tree, 2 = blue door, 3= red door
@@ -134,6 +134,7 @@
     var monster = [];
 
     var initial = true; //If the background is the top of the mountain
+    var initialWait = 0;
     var keyPressed = 0; //retrieves the key pressed by player
     var leftKeyPressed = false;
     var rightKeyPressed = false;
@@ -293,6 +294,9 @@
 
         bgY -= player.speed;
         score += Math.ceil(player.speed / 2);
+        if(initialWait > 3 && initialWait < 5){
+            wait(2000);
+        }
 
         if(bgY <= -512){
             bgY = 0 - (-512 - bgY);
@@ -339,7 +343,7 @@
             if(leftKeyPressed && player.posX >= 0){
                 player.posX -= player.speed/2;
                 ctx.drawImage(skierLeft, player.posX, player.posY);
-            }else if(rightKeyPressed){
+            }else if(rightKeyPressed && (player.posX + skierFront.width) <= bg.width){
                 player.posX += player.speed/2;
                 ctx.drawImage(skierRight, player.posX, player.posY);
             }else{
@@ -350,14 +354,17 @@
                 console.log("GO");
                 player.gameOver = true;
                 player.breakSpeed = player.speed;
-                player.speed = 1;
+                player.speed = 0;
             }
         }
         
         //Display score and speed
         ctx.fillText("Score: " + score, 10,20); //Score display
         ctx.fillText("Speed: " + player.speed, 10, 40);
-
+        if(initialWait < 6){
+            initialWait++;
+        }
+        
         requestAnimationFrame(draw);
     }
 
@@ -481,6 +488,13 @@
         }else{
             return false; //images not loaded
         }
+    }
+    function wait(ms)
+    {
+        var d = new Date();
+        var d2 = null;
+        do { d2 = new Date(); }
+        while(d2-d < ms);
     }
 
     while(!(imagesReady)){
