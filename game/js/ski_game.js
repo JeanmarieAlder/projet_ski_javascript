@@ -21,6 +21,12 @@
     var skierLeftReady = false;
     var skierRight = new Image();
     var skierRightReady = false;
+    var skierTFront = new Image();
+    var skierTFrontReady = false;
+    var skierTLeft = new Image();
+    var skierTLeftReady = false;
+    var skierTRight = new Image();
+    var skierTRightReady = false;
     var bear = new Image();
     var bearReady = false;
     var mammoth = new Image();
@@ -50,6 +56,15 @@
     skierRight.onload = function () {
         skierRightReady = true;
     };
+    skierTFront.onload = function () {
+        skierTFrontReady = true;
+    };
+    skierTLeft.onload = function () {
+        skierTLeftReady = true;
+    };
+    skierTRight.onload = function () {
+        skierTRightReady = true;
+    };
     bear.onload = function () {
         bearReady = true;
     };
@@ -75,6 +90,9 @@
     skierFront.src = "./images/game/skier_front.png";
     skierLeft.src = "./images/game/skier_left.png";
     skierRight.src = "./images/game/skier_right.png"
+    skierTFront.src = "./images/game/skier_top_front.png";
+    skierTLeft.src = "./images/game/skier_top_left.png";
+    skierTRight.src = "./images/game/skier_top_right.png";
     bear.src = "./images/game/bear.png";
     mammoth.src = "./images/game/mammoth.png";
     bunny.src = "./images/game/bunny.png";
@@ -93,11 +111,14 @@
         this.speed = speed;
         this.posX = posX; //player's position from left side
         this.posY = posY; //player's position from top, constant
+        this.gameOver = false;
+        this.breakSpeed = 0;
+        this.goFrame = 0;
     }
-    var player = new Player(6, 145, 80);
+    var player = new Player(10, 145, 80);
     
     var obstacleInitialY = 600;
-    var distBetweenObstacles = 400;
+    var distBetweenObstacles = 410;
     var obstacleSpawnPoint = obstacleInitialY - distBetweenObstacles;
     var monsterSpawnPoint = obstacleInitialY - (Math.floor(distBetweenObstacles/2));
     var mammothConstraint; // to determine which side is the mammoth
@@ -118,8 +139,8 @@
     var rightKeyPressed = false;
 
     var score = 0;
-
-    var bgY = 0;
+    var scoreCap = 10000;
+    var bgY = 0; //background Y position (x is always 0)
     
 
 
@@ -242,7 +263,7 @@
                                 mammothConstraint = 190;
                             }
                             monster.push({
-                                x : Math.floor(Math.random()*50) + 35,
+                                x : Math.floor(Math.random()*50) + mammothConstraint,
                                 y : obstacleInitialY,
                                 type : 3 //3 = mammoth
                             });
@@ -277,22 +298,65 @@
             bgY = 0 - (-512 - bgY);
             initial = false;
         }
-
-        if(leftKeyPressed && player.posX >= 0){
-            player.posX -= player.speed/2;
-            ctx.drawImage(skierLeft, player.posX, player.posY);
-        }else if(rightKeyPressed){
-            player.posX += player.speed/2;
-            ctx.drawImage(skierRight, player.posX, player.posY);
-        }else{
-            ctx.drawImage(skierFront, player.posX, player.posY);
+        if(player.speed < 10 && !(player.gameOver) && scoreCap < score){
+            player.speed ++;
+            scoreCap += 10000;
         }
-
-        ctx.fillText("Score: " + score, 10,20); //Score display
-        ctx.fillText("Speed: " + player.speed, 10, 40)
+        if(player.gameOver){
+            //game over side
+            console.log(Math.floor(player.goFrame));
+            switch(Math.floor(player.goFrame)) {
+                case 0:
+                    ctx.drawImage(skierFront, player.posX, player.posY)
+                    break;
+                case 1:
+                    ctx.drawImage(skierRight, player.posX, player.posY)
+                    break;
+                case 2:
+                    ctx.drawImage(skierTLeft, player.posX, player.posY)
+                    break;
+                case 3:
+                    ctx.drawImage(skierTFront, player.posX, player.posY)
+                    break;
+                case 4:
+                    ctx.drawImage(skierTRight, player.posX, player.posY)
+                    break;
+                case 5:
+                    ctx.drawImage(skierLeft, player.posX, player.posY)
+                    break;
+            }
+            player.breakSpeed += 0.5
+            player.posY += Math.ceil(player.breakSpeed);
+            player.goFrame += 0.2; //changes game over frame to next one
+            if(player.goFrame >= 6){
+                player.goFrame = 0; //reset player frame at 6 or more
+            }
+            if(player.posY >= 600) {
+                gameOver();
+            }
+        }else{
+            //normal game side
+            if(leftKeyPressed && player.posX >= 0){
+                player.posX -= player.speed/2;
+                ctx.drawImage(skierLeft, player.posX, player.posY);
+            }else if(rightKeyPressed){
+                player.posX += player.speed/2;
+                ctx.drawImage(skierRight, player.posX, player.posY);
+            }else{
+                ctx.drawImage(skierFront, player.posX, player.posY);
+            }
+            //Check if player is game over
+            if(checkGameOver()){
+                console.log("GO");
+                player.gameOver = true;
+                player.breakSpeed = player.speed;
+                player.speed = 1;
+            }
+        }
         
-        //Check if player is game over
-        checkGameOver();
+        //Display score and speed
+        ctx.fillText("Score: " + score, 10,20); //Score display
+        ctx.fillText("Speed: " + player.speed, 10, 40);
 
         requestAnimationFrame(draw);
     }
@@ -310,67 +374,100 @@
         }
     }
     
-    
+    function gameOver() 
+    {
+        ctx.fillText("GAME OVER", 97, 240);
+        
+        
+        requestAnimationFrame(gameOver);
+    }
     
     //checks if the player touches an obstacle or doesn't pass on a door
     function checkGameOver()
     {
-        for(var i = monster.length - 1; i >= 0 && i > (monster.length - 3); i--){
-            switch(monster[i].type){
+        var isGameOver = false;
+        var j;
+        for(j = monster.length - 1; j >= 0 && j >= (monster.length - 3); j--){
+            //console.log(monster[j].type + " - " + j);
+            switch(monster[j].type){
+                    
                 case 1:
-                    checkHitBox(monster[i].x, monster[i].y, bunny.width, bunny.height);
+                    if(!isGameOver){
+                        isGameOver = checkHitBox(monster[j].x, monster[j].y, bunny.width, bunny.height);
+                    }
                     break;
                 case 2:
-                    checkHitBox(monster[i].x, monster[i].y, bear.width, bear.height);
+                    if(!isGameOver){
+                        isGameOver = checkHitBox(monster[j].x, monster[j].y, bear.width, bear.height);
+                    }
                     break;
                 case 3:
-                    checkHitBox(monster[i].x, monster[i].y, mammoth.width, mammoth.height);
+                    if(!isGameOver){
+                        isGameOver =  checkHitBox(monster[j].x, monster[j].y, mammoth.width, mammoth.height);
+                    }
+                    break;
             }
         }
         
-        for(i = obstacle.length - 1; i >= 0 && i > (obstacle.length - 3); i--){
-            switch(obstacle[i].type){
+        for(j = obstacle.length - 1; j >= 0 && j > (obstacle.length - 3); j--){
+            switch(obstacle[j].type){
                 case 1:
-                    checkHitBox(obstacle[i].x, obstacle[i].y, wood.width, wood.height);
+                    if(!isGameOver){
+                        isGameOver = checkHitBox(obstacle[j].x, obstacle[j].y, wood.width, wood.height);
+                    }
                     break;
                 default:
-                    checkHitBoxDoor(obstacle[i].x, obstacle[i].y, obstacle[i].lastY);
+                    if(!isGameOver){
+                        isGameOver = checkHitBoxDoor(obstacle[j].x, obstacle[j].y, obstacle[j].lastY);
+                    }
                     break;
             }
         }
+        return isGameOver;
     }
     
     var px; //player bottom left X
     var py; //player bottom left and right Y 
     var plx; //player bottom right X
     function checkHitBox(mx, my, mlx, mly){
-        //console.log(mx + " " + my + " " + mlx + " " + mly);
+        //console.log("mx:" + mx + " my:" + my + " mlx:" + mlx + " mly:" + mly);
         //Monster hitbox : mx and my = top left corner position,
         //      pmx and pmy: length
         px = player.posX;
         py = player.posY + skierFront.height;
         plx = player.posX + skierFront.width;
         
+        //console.log("px: "+ px + " py:" + py + " plx:" + plx);
+        
+        //Game over Logic
         if((py >= my && py <= my + mly)
           && ((px >= mx && px <= mx + mlx) || 
               (plx >= mx && plx <= mx + mlx) ||
               (px <= mx && plx >= mx + mlx))){
             console.log("GAME OVER !!!!!!!!!!!!!!!");
+            return true; //this is game over
         }
+        return false; //this is ok!
     }
     function checkHitBoxDoor(mx, my, mly){
         px = player.posX;
         py = player.posY + skierFront.height;
-        plx = player.posX + skierFront.width;        
+        plx = player.posX + skierFront.width;
         
+        my += flagsBlue.height;
+        mly += flagsBlue.height;
         
+        //Game over Logic
         if(py <= mly && py >= my){
             if(px >= mx && plx <= mx + flagsBlue.width) {
-            console.log("passed");
+                score += 2000;
+                return false; //this is ok!
             }else{
-            console.log("GAME OVER !!!!!!");
+                console.log("GAME OVER !!!!!!");
+                return true; //this is game over
             }
         }
+        return false; //this is ok!
             
     }
     
@@ -379,7 +476,7 @@
     {
         if(bgReady && bgStartReady && skierFrontReady && skierLeftReady && skierRightReady
           && bearReady && mammothReady && bunnyReady && flagsBlueReady && flagsRedReady
-          && woodReady){
+          && woodReady && skierTFrontReady && skierTLeftReady && skierTRightReady){
             return true; //images ready
         }else{
             return false; //images not loaded
