@@ -5,10 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style/acceuil_style.css">
-    <!--<script type="text/javascript" src="./js/animationAccueil.js"></script>-->
-    <script type="text/javascript" src="../scripts/dragAndDrop.js"></script>
     <script type="text/javascript" src="../scripts/CopiePourAudrey.js"></script>
-    
+    <script type="text/javascript" src="../scripts/skiGameTest.js"></script> 
     
 </head>
     
@@ -42,11 +40,7 @@
     </div>
     
     <div class="bloc" id="jeu">
-        <img class="btn" id="redCrossGame" src="../ressources/images/close.png">
-        <br />
         <canvas id="canvas" width="288" height="512"></canvas>
-        <!--TEMPORAIRE SIMULE LA FIN DU JEU-->
-        <button class="btn" id="finbtn">FIN</button>
     </div>
     
     
@@ -65,7 +59,7 @@
         
     </div>
     
-    <div class="bloc" id="score">
+    <div class="bloc" id="scorediv">
         
         <img class="btn" id="redCrossScore" src="../ressources/images/close.png">
         
@@ -93,17 +87,19 @@
         
         <table>
             <tr>
-                <td><img class="avatar" id="avatar1" src="../ressources/images/Avatar/1.png" draggable="true"></td>
-                <td><img class="avatar" id="avatar2"  src="../ressources/images/Avatar/2.png" draggable="true"></td>
-                <td><img class="avatar" id="avatar3"  src="../ressources/images/Avatar/3.png" draggable="true"></td>
-                <td><img class="avatar" id="avatar4"  src="../ressources/images/Avatar/4.png" draggable="true"></td>
-                <td><img class="avatar" id="avatar5"  src="../ressources/images/Avatar/5.png" draggable="true"></td>
-                <td><img class="avatar" id="avatar6"  src="../ressources/images/Avatar/6.png" draggable="true"></td>
+                <div id="test" ondrop="drop(event);"><td><img class="avatar" id="avatar1" src="../ressources/images/Avatar/1.png" draggable="true"></td></div>
+                <td><img class="avatar" id="avatar2"  src="../ressources/images/Avatar/2.png"></td>
+                <td><img class="avatar" id="avatar3"  src="../ressources/images/Avatar/3.png"></td>
+                <td><img class="avatar" id="avatar4"  src="../ressources/images/Avatar/4.png"></td>
+                <td><img class="avatar" id="avatar5"  src="../ressources/images/Avatar/5.png"></td>
+                <td><img class="avatar" id="avatar6"  src="../ressources/images/Avatar/6.png"></td>
             </tr>
         </table>
         
             <p>Glisse et dépose ton avatar dans le carré ci-dessous.</p>
-            <img id="camera" src="../ressources/images/camera.png">
+            <div id="receptionAvatar" ondrop="drop(event);">
+            
+            </div>
             <br/> <br>
             <label>Score : </label><input type="text" id="scoreField" readonly/> 
             <br/> <br>

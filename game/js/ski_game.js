@@ -115,7 +115,7 @@
         this.breakSpeed = 0;
         this.goFrame = 0;
     }
-    var player = new Player(10, 145, 80);
+    var player = new Player(6, 145, 80);
     
     var obstacleInitialY = 600;
     var distBetweenObstacles = 410;

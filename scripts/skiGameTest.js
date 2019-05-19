@@ -1,166 +1,5 @@
-window.onload = function() {
-    
-    //Objet player
-    function Play(pseudo, score){
-        var pseudo = pseudo;
-        var score = score;
-    }
-    
-    //PARTIE DISPLAY ---------------------------------------------
-    //Masquer ce qu'il faut au début
-    document.getElementById("regleJeu").style.display = "none";
-    document.getElementById("jeu").style.display = "none";
-    document.getElementById("reglage").style.display = "none";
-    document.getElementById("scorediv").style.display = "none";
-    document.getElementById("ouskier").style.display = "none";
-    document.getElementById("player").style.display = "none";
+/*eslint-env browser*/
 
-    //Variables
-    var redCross = document.getElementById("redCrossRegle");
-    var redCrossReglage = document.getElementById("redCrossReglage");
-    var redCrossScore = document.getElementById("redCrossScore")
-    var redCossOuSkier = document.getElementById("redCrossOuSkier");
-    var btnRegleJeu = document.getElementById("regleJeubtn");
-    var btnReglage = document.getElementById("reglagebtn");
-    var btnPlay = document.getElementById("playbtn");
-    var btnScore = document.getElementById("scoresbtn");
-    var btnouskier = document.getElementById("ouskierbtn");
-    var btnvaliderplayer = document.getElementById("validerPlayer");
-    var btnfin = document.getElementById("finbtn");
-    var inputScore = document.getElementById("scoreField");
-    
-    //Initialisation listener
-    redCross.addEventListener("click", clicRedCross);
-    btnRegleJeu.addEventListener("click", clicRegleJeuBtn);
-    btnReglage.addEventListener("click", clicReglageBtn);
-    btnPlay.addEventListener("click", clicPlayBtn);
-    btnScore.addEventListener("click", clicScoreBtn);
-    btnouskier.addEventListener("click", clicOuSkier);
-    redCrossReglage.addEventListener("click", clicRedCrossReglage);
-    redCrossScore.addEventListener("click", clicRedCrossScore);
-    redCossOuSkier.addEventListener("click", clicRedCrossOuSkier);
-    btnvaliderplayer.addEventListener("click", clicValiderPlayer);
-    
-    //Fin du jeu
-    function ClicFin(){
-        document.getElementById("player").style.display = "";
-        document.getElementById("jeu").style.display = "none";
-        
-        //Recupération du score et affichage
-        inputScore.value = score;
-    }
-    
-    //Fermer player
-    function clicValiderPlayer(){
-        document.getElementById("player").style.display = "none";
-        document.getElementById("blocDemarrage").style.display = "";
-        
-        //---------------------------------------------------Gestion score
-        var pseudo = document.getElementById("pseudo").value;
-        
-        //Création du player
-        var player = new Player(pseudo, score);
-        
-        //Enregistrement dans la BDD
-        localStorage.setItem('players', JSON.stringify(player));
-        const data = JSON.parse(localStorage.getItem('players'))
-        
-        score = 0; //Remettre le score à 0
-        //---------------------------------------------------
-    }
-    
-    //Fermer ou skier
-    function clicRedCrossOuSkier(){
-        document.getElementById("ouskier").style.display = "none";
-        document.getElementById("blocDemarrage").style.display = "";
-    }
-    
-    //Ouvrir ou skier 
-    function clicOuSkier(){
-        document.getElementById("ouskier").style.display = "";
-        document.getElementById("blocDemarrage").style.display = "none";
-    }
-    
-    //Fermer le bloc de règle de jeu
-    function clicRedCross()
-    {
-        document.getElementById("regleJeu").style.display = "none";
-        document.getElementById("blocDemarrage").style.display = "";
-    }
-    
-    //Fermer Réglages
-    function clicRedCrossReglage()
-    {
-        document.getElementById("reglage").style.display = "none";
-        document.getElementById("blocDemarrage").style.display = "";
-    }
-    
-    //Fermer scores
-    function clicRedCrossScore()
-    {
-        document.getElementById("score").style.display = "none";
-        document.getElementById("blocDemarrage").style.display = "";
-    }
-    
-    //Ouvrir règle du jeu
-    function clicRegleJeuBtn()
-    {
-        document.getElementById("regleJeu").style.display = "";
-        document.getElementById("blocDemarrage").style.display = "none";
-    }
-    
-    //Ouvrir score
-    function clicScoreBtn()
-    {
-        
-        //Display les scores dans le tableau
-        document.getElementById("score").style.display = "";
-        document.getElementById("blocDemarrage").style.display = "none";
-    }
-    
-    //Ouvrir le jeu
-    function clicPlayBtn(){
-        document.getElementById("jeu").style.display = "";
-        document.getElementById("blocDemarrage").style.display = "none";
-        Game();
-        
-    }
-    
-    //Ouvrir réglages
-    function clicReglageBtn(){
-        document.getElementById("reglage").style.display = "";
-        document.getElementById("blocDemarrage").style.display = "none";
-    }
-    
-    //----------------------------------------------------------------------;
-    //PARTIE DRAG AND DROP--------------------------------------------------;
-    
-    var reception = document.getElementById("receptionAvatar");
-    var avatar1 = document.getElementById("avatar1");
-    
-    function allowDrop(event) {
-        event.preventDefault();
-    }
-
-    function drag(event) {
-        event.dataTransfer.setData("text", ev.target.id);
-    }
-
-    function drop(event) {
-        event.preventDefault();
-        var data = event.dataTransfer.getData("text");
-        event.target.appendChild(document.getElementById(data));
-    }
-    
-    document.getElementById("test").ondragover = allowDrop(event);
-    document.getElementById("receptionAvatar").ondragover = allowDrop(event);
-    //document.getElementById("avatar1").ondrag = drag(event);
-    //----------------------------------------------------------------------
-    //PARTIE JEU -----------------------------------------------------------
-    /*eslint-env browser*/
-
-var score = 0;    
-    
 function Game () {
     //Load canvas and context
     var cvas = document.getElementById("canvas"); //get reference to canvas
@@ -296,6 +135,7 @@ function Game () {
     var leftKeyPressed = false;
     var rightKeyPressed = false;
 
+    var score = 0;
     var scoreCap = 10000;
     var bgY = 0; //background Y position (x is always 0)
     
@@ -535,9 +375,6 @@ function Game () {
     {
         ctx.fillText("GAME OVER", 97, 240);
         requestAnimationFrame(gameOver);
-        setTimeout(function(){
-            ClicFin();
-        }, 3000);
     }
     
     //checks if the player touches an obstacle or doesn't pass on a door
@@ -648,4 +485,3 @@ function Game () {
     draw(); //start drawing the canvas
 };
 
-}

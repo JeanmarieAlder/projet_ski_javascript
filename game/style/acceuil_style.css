@@ -61,11 +61,12 @@ th, td{
     padding: 10px;
 }
 
-#camera{
-    padding: 30px;
-    border: dashed;
-}
-
 #player{
     text-align: center;
+}
+
+#receptionAvatar{
+    height: 150px;
+    width: 150px;
+    border: dashed;
 }
