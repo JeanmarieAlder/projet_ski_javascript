@@ -114,7 +114,7 @@ window.onload = function() {
     {
         
         //Display les scores dans le tableau
-        document.getElementById("score").style.display = "";
+        document.getElementById("scorediv").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
     }
     
@@ -155,11 +155,16 @@ window.onload = function() {
     document.getElementById("test").ondragover = allowDrop(event);
     document.getElementById("receptionAvatar").ondragover = allowDrop(event);
     //document.getElementById("avatar1").ondrag = drag(event);
+      
     //----------------------------------------------------------------------
     //PARTIE JEU -----------------------------------------------------------
     /*eslint-env browser*/
 
-var score = 0;    
+    var score = 0;    
+    
+/*eslint-env browser*/
+
+    var score = 0;  
     
 function Game () {
     //Load canvas and context
@@ -244,8 +249,8 @@ function Game () {
     wood.onload = function () {
         woodReady = true;
     };
-
-
+    
+    //Get image by URI
     bg.src = "./images/game/background.png";
     bgStart.src = "./images/game/background_start.png";
     skierFront.src = "./images/game/skier_front.png";
@@ -260,10 +265,11 @@ function Game () {
     flagsBlue.src = "./images/game/flags_blue.png";
     flagsRed.src = "./images/game/flags_red.png";
     wood.src = "./images/game/wood.png";
-
-
+    
+    //-------------------------------------------------------------------------
     //Variables and objects
     
+    //Player object
     function Player(speed, posX, posY)
     {
         this.speed = speed;
@@ -273,17 +279,19 @@ function Game () {
         this.breakSpeed = 0;
         this.goFrame = 0;
     }
-    var player = new Player(6, 145, 80);
+    var player = new Player(getDifficulty(), 145, 80); //player instanciation (only one per game)
     
-    var obstacleInitialY = 600;
-    var distBetweenObstacles = 410;
+    var obstacleInitialY = 600; //Y position of spawning objects
+    var distBetweenObstacles = 410; //Distance between obstacles
+    //Y position of last obstacle where a new obstacle is created
     var obstacleSpawnPoint = obstacleInitialY - distBetweenObstacles;
+    //Y position of last obstacle where a monster has a chance to be created
     var monsterSpawnPoint = obstacleInitialY - (Math.floor(distBetweenObstacles/2));
     var mammothConstraint; // to determine which side is the mammoth
     var newX; //used to determine next x spawn position
-    var obstacle = [];
-    obstacle[0] = {
-        x : 0,
+    var obstacle = []; //Stores all obstacles (trees and doors)
+    obstacle[0] = { //First obstacle (always static)
+        x : -10,
         y : obstacleInitialY,
         lastY : obstacleInitialY,
         type : 1 //1 = tree, 2 = blue door, 3= red door
@@ -292,6 +300,7 @@ function Game () {
     var monster = [];
 
     var initial = true; //If the background is the top of the mountain
+    var initialWait = 0;
     var keyPressed = 0; //retrieves the key pressed by player
     var leftKeyPressed = false;
     var rightKeyPressed = false;
@@ -299,8 +308,40 @@ function Game () {
     var scoreCap = 10000;
     var bgY = 0; //background Y position (x is always 0)
     
-
-
+    //A DEBUGUER DEMAIN
+    var resultSpeed;
+    function getDifficulty(){
+        var formulaire = document.getElementById("formDifficulty");
+        var inputDifficulty = formulaire.getElementsByTagName("input");
+        var n = inputDifficulty.length;
+        
+        for(i=0; i<n; i++){
+            if(inputDifficulty[i].type.toLowerCase()=="radio"){
+                if(inputDifficulty[i].checked){
+                    
+                    console.log(inputDifficulty[i].getAttribute("value"));
+                    
+                    switch(inputDifficulty[i].getAttribute("value")){
+                        case "facile" :
+                            resultSpeed = 4;
+                            break;
+                        case "moyen" :
+                            resultSpeed = 6;
+                            break;
+                        case "difficile" :
+                            resultSpeed = 8;
+                            break;
+                        case "expert" :
+                            resultSpeed = 10;
+                            break;
+                    } 
+                }
+            }
+        }
+        
+        console.log(resultSpeed);
+        return resultSpeed;
+    }
 
     //key pressed (id 37 is left and 39 is right)
     document.addEventListener("keydown", keyDownHandler);
@@ -450,6 +491,9 @@ function Game () {
 
         bgY -= player.speed;
         score += Math.ceil(player.speed / 2);
+        if(initialWait > 3 && initialWait < 5){
+            wait(2000);
+        }
 
         if(bgY <= -512){
             bgY = 0 - (-512 - bgY);
@@ -496,7 +540,7 @@ function Game () {
             if(leftKeyPressed && player.posX >= 0){
                 player.posX -= player.speed/2;
                 ctx.drawImage(skierLeft, player.posX, player.posY);
-            }else if(rightKeyPressed){
+            }else if(rightKeyPressed && (player.posX + skierFront.width) <= bg.width){
                 player.posX += player.speed/2;
                 ctx.drawImage(skierRight, player.posX, player.posY);
             }else{
@@ -507,14 +551,17 @@ function Game () {
                 //console.log("GO");
                 player.gameOver = true;
                 player.breakSpeed = player.speed;
-                player.speed = 1;
+                player.speed = 0;
             }
         }
         
         //Display score and speed
         ctx.fillText("Score: " + score, 10,20); //Score display
         ctx.fillText("Speed: " + player.speed, 10, 40);
-
+        if(initialWait < 6){
+            initialWait++;
+        }
+        
         requestAnimationFrame(draw);
     }
 
@@ -534,7 +581,10 @@ function Game () {
     function gameOver() 
     {
         ctx.fillText("GAME OVER", 97, 240);
+        
+        
         requestAnimationFrame(gameOver);
+        
         setTimeout(function(){
             ClicFin();
         }, 3000);
@@ -639,6 +689,13 @@ function Game () {
         }else{
             return false; //images not loaded
         }
+    }
+    function wait(ms)
+    {
+        var d = new Date();
+        var d2 = null;
+        do { d2 = new Date(); }
+        while(d2-d < ms);
     }
 
     while(!(imagesReady)){
