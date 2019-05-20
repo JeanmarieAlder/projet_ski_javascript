@@ -61,6 +61,11 @@ th, td{
     padding: 10px;
 }
 
+td{
+    height: 150px;
+    width: 150px;
+}
+
 #player{
     text-align: center;
 }
