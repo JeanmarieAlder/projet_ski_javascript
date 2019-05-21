@@ -1,13 +1,5 @@
 window.onload = function() {
     
-    //Objet player
-    function Score(pseudo, score, niveau, avatar){
-        var pseudo = pseudo;
-        var score = score;
-        var niveau = niveau;
-        //var avatar = avatar;
-    }
-    
     //PARTIE DISPLAY ---------------------------------------------
     //Masquer ce qu'il faut au début
     document.getElementById("regleJeu").style.display = "none";
@@ -41,7 +33,7 @@ window.onload = function() {
     btnouskier.addEventListener("click", clicOuSkier);
     redCrossReglage.addEventListener("click", clicRedCrossReglage);
     redCrossScore.addEventListener("click", clicRedCrossScore);
-    //redCossOuSkier.addEventListener("click", clicRedCrossOuSkier);
+    redCossOuSkier.addEventListener("click", clicRedCrossOuSkier);
     btnvaliderplayer.addEventListener("click", clicValiderPlayer);
     
     //Fin du jeu
@@ -85,6 +77,44 @@ window.onload = function() {
     function clicOuSkier(){
         document.getElementById("ouskier").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
+        
+        //initialisation of the map
+            //center on sierre
+            //default zoom level : 8
+            var mymap = L.map('mapOuSkier').setView([46.239556, 7.505549], 8);
+            
+            
+            //Adding a map tile URL with contribution to MapQuest, maxzoom is 18
+            L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Data, imagery and map information provided by MapQuest, <a href="http://www.openstreetmap.org/copyright">OpenStreetMap </a> and contributors, OdBl.',
+                maxZoom: 18
+            }).addTo(mymap);
+            
+            //Adding a marker on Sion
+            /*
+            var marker = L.marker([46.230976,	7.364266]).addTo(mymap);
+            marker.bindPopup("Mil&egrave;ne Fauquex<br>City : Sion<br>Background : Master HES");
+            */
+            
+            //Using getjson ajax jquery method to read the file
+            $.getJSON( "../leaflet/data.json", function( data ) { //file URL
+                
+              $.each( data, function(key, val) { //loop on data
+                  
+                console.log(val);
+                  //creating the marker with data from json file
+                  //var marker = L.marker([val.latitude,val.longitude]).addTo(mymap);
+                  
+                  //using circleMarker object
+                  var marker = L.circleMarker([val.latitude,val.longitude]).addTo(mymap);
+                  //set age to radius
+                  marker.setRadius((val.age-25)*2);
+                  
+                  //creating the popup
+                  marker.bindPopup(val.firstname+" "+val.lastname+"<br>City : "+val.city+"<br>Background : "+val.background);
+              });
+            });
+        
     }
     
     //Fermer le bloc de règle de jeu
@@ -115,7 +145,7 @@ window.onload = function() {
         document.getElementById("blocDemarrage").style.display = "none";
     }
     
-     //Ouvrir score
+    //Ouvrir score
     function clicScoreBtn()
     {
         document.getElementById("scorediv").style.display = "";
@@ -237,7 +267,12 @@ window.onload = function() {
     var score = 0;  
     var cvas = document.getElementById("canvas"); //get reference to canvas
     
-function Game () {
+    cvas.addEventListener("click", function(){
+       ClicFin(); 
+    });
+    
+    function Game() {
+    score = 0;
     //Load canvas and context
     var cvas = document.getElementById("canvas"); //get reference to canvas
     var ctx = cvas.getContext("2d"); //get  context of the page
@@ -376,8 +411,12 @@ function Game () {
     var leftKeyPressed = false;
     var rightKeyPressed = false;
 
+    //var score = 0;
     var scoreCap = 10000;
     var bgY = 0; //background Y position (x is always 0)
+    
+
+
 
     //key pressed (id 37 is left and 39 is right)
     document.addEventListener("keydown", keyDownHandler);
@@ -618,12 +657,7 @@ function Game () {
     {
         ctx.fillText("GAME OVER", 97, 240);
         
-        
         requestAnimationFrame(gameOver);
-        
-        setTimeout(function(){
-            ClicFin();
-        }, 3000);
         
     }
     
@@ -741,5 +775,4 @@ function Game () {
     }
     draw(); //start drawing the canvas
 };
-
 }

@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="style/acceuil_style.css">
     <script type="text/javascript" src="../scripts/CopiePourAudrey.js"></script>
     
-      <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
-
-    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
-    <script type="text/javascript" src="../scripts/script.js"></script>
-
+    <!--Partie map-->
+    <!-- inclusion of the leaflet css file -->
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+        <!-- inclusion of our css file -->
+        <link rel="stylesheet" href="../leaflet/mystyle.css" />
+        <!-- inclusion of the leaflet js file -->
+        <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+        <!-- inclusion of JQUERY -->
+        <script   src="https://code.jquery.com/jquery-3.0.0.js"   integrity="sha256-jrPLZ+8vDxt2FnE1zvZXCkCcebI/C8Dt5xyaQBjxQIo="   crossorigin="anonymous"></script>    
     
 </head>
     
@@ -82,34 +86,12 @@
         
     </div>
     
-    <div id="ouskier">
-        
-         <div id="map" style="width: 100%; height: 530px;"></div>
-      <div id="accordeon">
-
-        <button class="accordion">Général</button>
-        <div class="panel">
-          <p id="latitude">Latitude : </p>
-            <p id="longitude">Longitude : </p>
-            <p id="canton">Canton : </p>
-            <p id="commune">Commune(NPA) : </p>
-            <p id="service">Service : </p>
-        </div>
+    <div class="bloc" id="ouskier">
+        <img class="btn" id="redCrossOuSkier" src="../ressources/images/close.png">
+        <div id="mapOuSkier">
         
         </div>
-        
-        
-
-        
-        
-        </div>
-        
-        
-        
-        
-        
-        
-
+    </div>
     
     <div class="bloc" id="playerdiv">
         
@@ -139,7 +121,7 @@
             <br/> <br>
             <label>Score : </label><input type="text" id="scoreField" readonly/> 
             <br/> <br>
-            <label>Pseudo : </label><input type="text" id="pseudo"/>
+            <label>Pseudo : </label><input type="text" id="pseudo" required/>
         
         <button class="btn" id="validerPlayer">VALIDER</button>
     

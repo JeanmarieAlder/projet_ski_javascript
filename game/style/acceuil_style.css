@@ -1,5 +1,5 @@
 body{
-   background-image: url(../../images/backgroundMountain.jpg);
+    background-image: url(../../images/backgroundMountain.jpg);
     background-repeat:no-repeat;
     margin: 0;
     display: flex;
@@ -77,4 +77,9 @@ th, td{
 
 #displayAvatar{
     display: inline-flex;
+}
+
+#mapOuSkier{
+    height: 500px;
+    width: 500px;
 }
