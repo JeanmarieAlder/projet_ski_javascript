@@ -1,9 +1,10 @@
 window.onload = function() {
     
     //Objet player
-    function Play(pseudo, score){
+    function Score(pseudo, score, niveau){
         var pseudo = pseudo;
         var score = score;
+        var niveau = niveau;
     }
     
     //PARTIE DISPLAY ---------------------------------------------
@@ -28,6 +29,8 @@ window.onload = function() {
     var btnvaliderplayer = document.getElementById("validerPlayer");
     var btnfin = document.getElementById("finbtn");
     var inputScore = document.getElementById("scoreField");
+    var receptionAvatar = document.getElementById("receptionAvatar");
+    var tabAvatar = document.getElementById("avatar");
     
     //Initialisation listener
     redCross.addEventListener("click", clicRedCross);
@@ -58,8 +61,7 @@ window.onload = function() {
         //---------------------------------------------------Gestion score
         var pseudo = document.getElementById("pseudo").value;
         
-        //Création du player
-        var player = new Player(pseudo, score);
+        
         
         //Enregistrement dans la BDD
         localStorage.setItem('players', JSON.stringify(player));
@@ -112,8 +114,6 @@ window.onload = function() {
     //Ouvrir score
     function clicScoreBtn()
     {
-        
-        //Display les scores dans le tableau
         document.getElementById("scorediv").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
     }
@@ -135,27 +135,15 @@ window.onload = function() {
     //----------------------------------------------------------------------;
     //PARTIE DRAG AND DROP--------------------------------------------------;
     
-    var reception = document.getElementById("receptionAvatar");
-    var avatar1 = document.getElementById("avatar1");
-    
-    function allowDrop(event) {
-        event.preventDefault();
-    }
-
-    function drag(event) {
-        event.dataTransfer.setData("text", ev.target.id);
-    }
-
-    function drop(event) {
-        event.preventDefault();
-        var data = event.dataTransfer.getData("text");
-        event.target.appendChild(document.getElementById(data));
-    }
-    
-    document.getElementById("test").ondragover = allowDrop(event);
-    document.getElementById("receptionAvatar").ondragover = allowDrop(event);
-    //document.getElementById("avatar1").ondrag = drag(event);
+    //Voir dans le fichier html
       
+    //----------------------------------------------------------------------;
+    //PARTIE GESTION DES SCORES---------------------------------------------;
+    
+    
+    
+    
+    
     //----------------------------------------------------------------------
     //PARTIE JEU -----------------------------------------------------------
     /*eslint-env browser*/
@@ -318,9 +306,6 @@ function Game () {
         for(i=0; i<n; i++){
             if(inputDifficulty[i].type.toLowerCase()=="radio"){
                 if(inputDifficulty[i].checked){
-                    
-                    console.log(inputDifficulty[i].getAttribute("value"));
-                    
                     switch(inputDifficulty[i].getAttribute("value")){
                         case "facile" :
                             resultSpeed = 4;
@@ -338,8 +323,6 @@ function Game () {
                 }
             }
         }
-        
-        console.log(resultSpeed);
         return resultSpeed;
     }
 

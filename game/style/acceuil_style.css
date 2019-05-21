@@ -61,12 +61,25 @@ th, td{
     padding: 10px;
 }
 
+td{
+    height: 150px;
+    width: 150px;
+}
+
 #player{
     text-align: center;
 }
 
-#receptionAvatar{
+.divAvatar{
     height: 150px;
     width: 150px;
     border: dashed;
+}
+
+#displayAvatar{
+    display: inline-flex;
+}
+
+#containerAvatar{
+    transform: translate(250%, 1%);
 }

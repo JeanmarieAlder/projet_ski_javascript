@@ -84,30 +84,55 @@
     </div>
     
     <div class="bloc" id="player">
+        
         <h1>GAME OVER</h1>
         
-        <table>
-            <tr>
-                <div id="test" ondrop="drop(event);"><td><img class="avatar" id="avatar1" src="../ressources/images/Avatar/1.png" draggable="true"></td></div>
-                <td><img class="avatar" id="avatar2"  src="../ressources/images/Avatar/2.png"></td>
-                <td><img class="avatar" id="avatar3"  src="../ressources/images/Avatar/3.png"></td>
-                <td><img class="avatar" id="avatar4"  src="../ressources/images/Avatar/4.png"></td>
-                <td><img class="avatar" id="avatar5"  src="../ressources/images/Avatar/5.png"></td>
-                <td><img class="avatar" id="avatar6"  src="../ressources/images/Avatar/6.png"></td>
-            </tr>
-        </table>
+        <div id="displayAvatar">
+
+            <div ondrop="dropA(event)" ondragover="allowDropA(event)" class="divAvatar"><img class="avatar" id="avatar1" src="../ressources/images/Avatar/1.png" draggable="true" ondragstart="dragA(event)"></div>
+        
+            <div ondrop="dropA(event)" ondragover="allowDropA(event)" class="divAvatar"><img class="avatar" id="avatar2"  src="../ressources/images/Avatar/2.png" draggable="true" ondragstart="dragA(event)"></div>
+        
+            <div ondrop="dropA(event)" ondragover="allowDropA(event)" class="divAvatar"><img class="avatar" id="avatar3"  src="../ressources/images/Avatar/3.png" draggable="true" ondragstart="dragA(event)"></div>
+        
+            <div ondrop="dropA(event)" ondragover="allowDropA(event)" class="divAvatar"><img class="avatar" id="avatar4"  src="../ressources/images/Avatar/4.png" draggable="true" ondragstart="dragA(event)"></div>
+        
+            <div ondrop="dropA(event)" ondragover="allowDropA(event)" class="divAvatar"><img class="avatar" id="avatar5"  src="../ressources/images/Avatar/5.png" draggable="true" ondragstart="dragA(event)"></div>
+        
+            <div ondrop="dropA(event)" ondragover="allowDropA(event)" class="divAvatar"><img class="avatar" id="avatar6"  src="../ressources/images/Avatar/6.png" draggable="true" ondragstart="dragA(event)"></div>
+        
+            
+        </div>
         
             <p>Glisse et dépose ton avatar dans le carré ci-dessous.</p>
-            <div id="receptionAvatar" ondrop="drop(event);">
-            
-            </div>
+        
+            <div class="divAvatar" ondrop="dropA(event)" ondragover="allowDropA(event)" id="containerAvatar"></div>
+        
             <br/> <br>
             <label>Score : </label><input type="text" id="scoreField" readonly/> 
             <br/> <br>
             <label>Pseudo : </label><input type="text" id="pseudo"/>
+        
         <button class="btn" id="validerPlayer">VALIDER</button>
+        
+        <script>
+            //Obligé de mettre ici sinon undefined 
+            function allowDropA(ev) {
+                ev.preventDefault();
+            }
+
+            function dragA(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
+
+            function dropA(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+                ev.target.appendChild(document.getElementById(data));
+            }
+        </script>
+        
     </div>
-    
     
 </body>    
     
