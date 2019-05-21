@@ -39,6 +39,14 @@
     var flagsRedReady = false;
     var wood = new Image();
     var woodReady = false;
+    
+    var scoreSound = new Audio();
+    var scoreSoundReady = false;
+    
+    scoreSound.onload = function() {
+        scoreSoundReady = true;
+    }
+    scoreSound.src = "./audio/score.mp3";
 
     //Make sure images are loaded before starting the page
     bg.onload = function () {
@@ -468,6 +476,7 @@
         if(py <= mly && py >= my){
             if(px >= mx && plx <= mx + flagsBlue.width) {
                 score += 2000;
+                scoreSound.play();
                 return false; //this is ok!
             }else{
                 console.log("GAME OVER !!!!!!");
