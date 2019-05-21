@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Accueil</title>
@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style/acceuil_style.css">
     <script type="text/javascript" src="../scripts/CopiePourAudrey.js"></script>
-    <script type="text/javascript" src="../scripts/skiGameTest.js"></script> 
     
 </head>
     
@@ -83,7 +82,7 @@
         <!--Mettre la map-->
     </div>
     
-    <div class="bloc" id="player">
+    <div class="bloc" id="playerdiv">
         
         <h1>GAME OVER</h1>
         
@@ -114,25 +113,26 @@
             <label>Pseudo : </label><input type="text" id="pseudo"/>
         
         <button class="btn" id="validerPlayer">VALIDER</button>
-        
-        <script>
-            //Obligé de mettre ici sinon undefined 
-            function allowDropA(ev) {
-                ev.preventDefault();
-            }
-
-            function dragA(ev) {
-                ev.dataTransfer.setData("text", ev.target.id);
-            }
-
-            function dropA(ev) {
-                ev.preventDefault();
-                var data = ev.dataTransfer.getData("text");
-                ev.target.appendChild(document.getElementById(data));
-            }
-        </script>
+    
         
     </div>
+    
+    <script>
+        //Obligé de mettre ici sinon undefined 
+        function allowDropA(ev) {
+            ev.preventDefault();
+        }
+
+        function dragA(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropA(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
     
 </body>    
     

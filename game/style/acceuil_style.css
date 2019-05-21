@@ -61,12 +61,7 @@ th, td{
     padding: 10px;
 }
 
-td{
-    height: 150px;
-    width: 150px;
-}
-
-#player{
+#playerdiv{
     text-align: center;
 }
 
@@ -76,10 +71,10 @@ td{
     border: dashed;
 }
 
-#displayAvatar{
-    display: inline-flex;
-}
-
 #containerAvatar{
     transform: translate(250%, 1%);
+}
+
+#displayAvatar{
+    display: inline-flex;
 }

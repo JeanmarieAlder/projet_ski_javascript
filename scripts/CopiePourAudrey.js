@@ -1,10 +1,11 @@
 window.onload = function() {
     
     //Objet player
-    function Score(pseudo, score, niveau){
+    function Score(pseudo, score, niveau, avatar){
         var pseudo = pseudo;
         var score = score;
         var niveau = niveau;
+        //var avatar = avatar;
     }
     
     //PARTIE DISPLAY ---------------------------------------------
@@ -14,7 +15,7 @@ window.onload = function() {
     document.getElementById("reglage").style.display = "none";
     document.getElementById("scorediv").style.display = "none";
     document.getElementById("ouskier").style.display = "none";
-    document.getElementById("player").style.display = "none";
+    document.getElementById("playerdiv").style.display = "none";
 
     //Variables
     var redCross = document.getElementById("redCrossRegle");
@@ -29,8 +30,7 @@ window.onload = function() {
     var btnvaliderplayer = document.getElementById("validerPlayer");
     var btnfin = document.getElementById("finbtn");
     var inputScore = document.getElementById("scoreField");
-    var receptionAvatar = document.getElementById("receptionAvatar");
-    var tabAvatar = document.getElementById("avatar");
+    var inputPseudo = document.getElementById("pseudo");
     
     //Initialisation listener
     redCross.addEventListener("click", clicRedCross);
@@ -46,29 +46,18 @@ window.onload = function() {
     
     //Fin du jeu
     function ClicFin(){
-        document.getElementById("player").style.display = "";
+        document.getElementById("playerdiv").style.display = "";
         document.getElementById("jeu").style.display = "none";
-        
+
         //Recupération du score et affichage
         inputScore.value = score;
+        //inputPseudo.value = ""; //Remettre vide l'input 
     }
     
     //Fermer player
     function clicValiderPlayer(){
-        document.getElementById("player").style.display = "none";
         document.getElementById("blocDemarrage").style.display = "";
-        
-        //---------------------------------------------------Gestion score
-        var pseudo = document.getElementById("pseudo").value;
-        
-        
-        
-        //Enregistrement dans la BDD
-        localStorage.setItem('players', JSON.stringify(player));
-        const data = JSON.parse(localStorage.getItem('players'))
-        
-        score = 0; //Remettre le score à 0
-        //---------------------------------------------------
+        document.getElementById("playerdiv").style.display = "none";
     }
     
     //Fermer ou skier
@@ -100,7 +89,7 @@ window.onload = function() {
     //Fermer scores
     function clicRedCrossScore()
     {
-        document.getElementById("score").style.display = "none";
+        document.getElementById("scorediv").style.display = "none";
         document.getElementById("blocDemarrage").style.display = "";
     }
     
@@ -123,7 +112,6 @@ window.onload = function() {
         document.getElementById("jeu").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
         Game();
-        
     }
     
     //Ouvrir réglages
@@ -140,17 +128,55 @@ window.onload = function() {
     //----------------------------------------------------------------------;
     //PARTIE GESTION DES SCORES---------------------------------------------;
     
-    
-    
-    
+    function manageScore(){
+        //---------------------------------------------------Gestion score
+        var pseudo = inputPseudo.value;
+        var niveau = getDifficulty();
+        
+        var result = new Score(pseudo, score, niveau);
+        
+        //Enregistrement dans la BDD
+        localStorage.setItem('result', JSON.stringify(player));
+        const data = JSON.parse(localStorage.getItem('result'));
+        
+        for(var i=0; i<localStorage.length; i++){
+            console.log(localStorage.getItem(localStorage.key(i)));
+        }
+        
+        score = 0; //Remettre le score à 0
+        //---------------------------------------------------
+    }
     
     //----------------------------------------------------------------------
     //PARTIE JEU -----------------------------------------------------------
-    /*eslint-env browser*/
-
-    var score = 0;    
-    
-/*eslint-env browser*/
+    var resultSpeed;
+    function getDifficulty(){
+        var formulaire = document.getElementById("formDifficulty");
+        var inputDifficulty = formulaire.getElementsByTagName("input");
+        var n = inputDifficulty.length;
+        
+        for(i=0; i<n; i++){
+            if(inputDifficulty[i].type.toLowerCase()=="radio"){
+                if(inputDifficulty[i].checked){
+                    switch(inputDifficulty[i].getAttribute("value")){
+                        case "facile" :
+                            resultSpeed = 4;
+                            break;
+                        case "moyen" :
+                            resultSpeed = 6;
+                            break;
+                        case "difficile" :
+                            resultSpeed = 8;
+                            break;
+                        case "expert" :
+                            resultSpeed = 10;
+                            break;
+                    } 
+                }
+            }
+        }
+        return resultSpeed;
+    }
 
     var score = 0;  
     
@@ -295,36 +321,6 @@ function Game () {
 
     var scoreCap = 10000;
     var bgY = 0; //background Y position (x is always 0)
-    
-    //A DEBUGUER DEMAIN
-    var resultSpeed;
-    function getDifficulty(){
-        var formulaire = document.getElementById("formDifficulty");
-        var inputDifficulty = formulaire.getElementsByTagName("input");
-        var n = inputDifficulty.length;
-        
-        for(i=0; i<n; i++){
-            if(inputDifficulty[i].type.toLowerCase()=="radio"){
-                if(inputDifficulty[i].checked){
-                    switch(inputDifficulty[i].getAttribute("value")){
-                        case "facile" :
-                            resultSpeed = 4;
-                            break;
-                        case "moyen" :
-                            resultSpeed = 6;
-                            break;
-                        case "difficile" :
-                            resultSpeed = 8;
-                            break;
-                        case "expert" :
-                            resultSpeed = 10;
-                            break;
-                    } 
-                }
-            }
-        }
-        return resultSpeed;
-    }
 
     //key pressed (id 37 is left and 39 is right)
     document.addEventListener("keydown", keyDownHandler);
@@ -571,6 +567,7 @@ function Game () {
         setTimeout(function(){
             ClicFin();
         }, 3000);
+        
     }
     
     //checks if the player touches an obstacle or doesn't pass on a door
