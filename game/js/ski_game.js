@@ -302,7 +302,7 @@
             bgY = 0 - (-512 - bgY);
             initial = false;
         }
-        if(player.speed < 10 && !(player.gameOver) && scoreCap < score){
+        if(player.speed < 10 && player.speed != 0 && !(player.gameOver) && scoreCap < score){
             player.speed ++;
             scoreCap += 10000;
         }
