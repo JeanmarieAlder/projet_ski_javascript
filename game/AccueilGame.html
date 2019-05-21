@@ -8,6 +8,12 @@
     <script type="text/javascript" src="../scripts/CopiePourAudrey.js"></script>
     <script type="text/javascript" src="../scripts/skiGameTest.js"></script> 
     
+      <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+    <script type="text/javascript" src="../scripts/script.js"></script>
+
+    
 </head>
     
 <body>
@@ -78,10 +84,34 @@
         
     </div>
     
-    <div class="bloc" id="ouskier">
-        <img class="btn" id="redCrossOuSkier" src="../ressources/images/close.png">
-        <!--Mettre la map-->
-    </div>
+    <div id="ouskier">
+        
+         <div id="map" style="width: 100%; height: 530px;"></div>
+      <div id="accordeon">
+
+        <button class="accordion">Général</button>
+        <div class="panel">
+          <p id="latitude">Latitude : </p>
+            <p id="longitude">Longitude : </p>
+            <p id="canton">Canton : </p>
+            <p id="commune">Commune(NPA) : </p>
+            <p id="service">Service : </p>
+        </div>
+        
+        </div>
+        
+        
+
+        
+        
+        </div>
+        
+        
+        
+        
+        
+        
+
     
     <div class="bloc" id="player">
         
