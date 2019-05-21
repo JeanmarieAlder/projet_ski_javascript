@@ -41,7 +41,7 @@ window.onload = function() {
     btnouskier.addEventListener("click", clicOuSkier);
     redCrossReglage.addEventListener("click", clicRedCrossReglage);
     redCrossScore.addEventListener("click", clicRedCrossScore);
-    redCossOuSkier.addEventListener("click", clicRedCrossOuSkier);
+    //redCossOuSkier.addEventListener("click", clicRedCrossOuSkier);
     btnvaliderplayer.addEventListener("click", clicValiderPlayer);
     
     //Fin du jeu
@@ -58,6 +58,21 @@ window.onload = function() {
     function clicValiderPlayer(){
         document.getElementById("blocDemarrage").style.display = "";
         document.getElementById("playerdiv").style.display = "none";
+        
+        //Création de l'objet
+        var s = {
+            pseudo : inputPseudo.value,
+            score : score,
+            niveau : getDifficulty(),
+        }
+        
+        //On met en JSON
+        var s_serizalized = JSON.stringify(s);     
+        
+        //On Stock
+        localStorage.setItem("user"+localStorage.length, s_serizalized);
+        console.log(localStorage);
+        
     }
     
     //Fermer ou skier
@@ -100,11 +115,52 @@ window.onload = function() {
         document.getElementById("blocDemarrage").style.display = "none";
     }
     
-    //Ouvrir score
+     //Ouvrir score
     function clicScoreBtn()
     {
         document.getElementById("scorediv").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
+        
+        var n = localStorage.length;
+        
+        tableau = document.getElementById("scoreTableau");
+        tbody = document.createElement("tbody");
+        
+        //CORRIGER BUG AFFICHAGE PLUSIEURS FOIS 
+        
+        
+        for(var i=0; i<n; i++){ //Lignes
+            console.log(i);
+            var tr = document.createElement("tr");
+            var obj = JSON.parse(localStorage.getItem("user"+i))
+            console.log(obj);
+            
+            for(var j=0; j<4; j++){ //Colonnes
+                
+                var td = document.createElement("td");
+                
+                switch(j){
+                    case 0 :
+                        td.appendChild(document.createTextNode(i+1));
+                        break;
+                    case 1 :
+                        td.appendChild(document.createTextNode(obj.pseudo))
+                        break;
+                    case 2 :
+                        td.appendChild(document.createTextNode(obj.score))
+                        break;
+                    case 3 : 
+                        td.appendChild(document.createTextNode(obj.niveau))
+                }
+                
+                tr.appendChild(td);
+            }
+            
+            tbody.appendChild(tr);
+        }
+    
+        tableau.appendChild(tbody);
+        
     }
     
     //Ouvrir le jeu
@@ -179,6 +235,7 @@ window.onload = function() {
     }
 
     var score = 0;  
+    var cvas = document.getElementById("canvas"); //get reference to canvas
     
 function Game () {
     //Load canvas and context
