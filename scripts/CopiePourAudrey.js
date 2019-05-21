@@ -51,17 +51,6 @@ window.onload = function() {
         
         //Recupération du score et affichage
         inputScore.value = score;
-        
-        var arrayLignes = tabAvatar.rows;
-        var longueur = arrayLignes.length;
-        var i = 0
-        
-        /*while(i<longueur){
-            arrayLignes[i].addEventListener("dragstart", dragA(e));
-        }
-        
-        receptionAvatar.addEventListener("drop", dropA(e));
-        receptionAvatar.addEventListener("dragover", allowDropA(e));*/
     }
     
     //Fermer player
@@ -72,8 +61,7 @@ window.onload = function() {
         //---------------------------------------------------Gestion score
         var pseudo = document.getElementById("pseudo").value;
         
-        //Création du player
-        var player = new Player(pseudo, score);
+        
         
         //Enregistrement dans la BDD
         localStorage.setItem('players', JSON.stringify(player));
@@ -147,7 +135,7 @@ window.onload = function() {
     //----------------------------------------------------------------------;
     //PARTIE DRAG AND DROP--------------------------------------------------;
     
-    
+    //Voir dans le fichier html
       
     //----------------------------------------------------------------------;
     //PARTIE GESTION DES SCORES---------------------------------------------;
