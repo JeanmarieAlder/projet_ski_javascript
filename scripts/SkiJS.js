@@ -79,10 +79,126 @@ window.onload = function() {
         document.getElementById("ouskier").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
         
+         /*Geolocation part*/
+var geoUser = "";
+var generalInformation = "";
+var userLatitude = "";
+var userLongitude = "";
+
+
+if (localStorage.getItem("geoUserMemo") === null) { //if palmares is null we create it
+        localStorage.setItem("geoUserMemo", JSON.stringify(geoUser));
+}
+
+if (localStorage.getItem("generalInformation") === null) { //if palmares is null we create it
+        localStorage.setItem("generalInformation", JSON.stringify(generalInformation));
+}
+
+if (localStorage.getItem("userLatitude") === null) { //if palmares is null we create it
+        localStorage.setItem("userLatitude", JSON.stringify(userLatitude));
+}
+
+if (localStorage.getItem("userLongitude") === null) { //if palmares is null we create it
+        localStorage.setItem("userLongitude", JSON.stringify(userLongitude));
+}
+
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+   console.log("goeloc not supported");
+  }
+}
+
+
+function showPosition(position) {
+
+        var getJSON = function(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'json';
+        xhr.onload = function() {
+            var status = xhr.status;
+            if(status === 200){
+                callback(null, xhr.response);
+            } else {
+                callback(status, xhr.response);
+            }
+        };
+        xhr.send();
+        };
+
+        getJSON('http://open.mapquestapi.com/geocoding/v1/reverse?key=A5AOlcOT3M0rfeqBbrwMLBfHMZWDF1vZ&location='+position.coords.latitude+','+position.coords.longitude+'&includeRoadMetadata=true&includeNearestIntersection=true', function(err, data) {
+            if(err !== null){
+                alert('Something went wrong: ' + err);
+            } else {
+                console.log(data);
+                var thisLatitude = data["results"]["0"]["locations"]["0"]["latLng"]["lat"]; //Latitude
+                var thisLongitude = data["results"]["0"]["locations"]["0"]["latLng"]["lng"];//longitude
+                var thisCanton = data["results"]["0"]["locations"]["0"]["adminArea3"];//canton
+                var thisCommune = data["results"]["0"]["locations"]["0"]["adminArea5"];//commune
+                var thisNPA = data["results"]["0"]["locations"]["0"]["postalCode"];//npa
+                var thisService = data["info"]["copyright"]["text"];//name service
+
+                function convertLatLng(lat,long){
+                                // =>deg = 3600 * seconde
+                                lat = lat * 3600;
+                                long = long * 3600;
+
+                                // latitude:  φ =>lat  ( φ' =>lat2)
+                                lat2 = (lat - 169028.66)/10000;
+
+                                // longitude:  λ =>long  ( λ' =>long2)
+                                long2 = (long - 26782.5)/10000;
+
+                                var y = 600072.37 + (211455.93 * long2) - (10938.51 * long2 * lat2) - (0.36 * long2 * (lat2*lat2)) - (44.54 * (long2*long2*long2));
+                                y = Math.round(y);
+
+                                var x = 200147.07 + (308807.95 * lat2) + (3745.25 * long2*long2) + (76.63 * lat2*lat2) - (194.56 * long2*long2 * lat2) + (119.79 * lat2*lat2*lat2);
+                                x = Math.round(x);
+
+                                return [y,x];  // 600000,200000
+                            }
+
+                var getSwissValue = convertLatLng(thisLatitude, thisLongitude);
+
+                /*Mise en forme*/
+                document.getElementById("latitude").append(thisLatitude+" | CH1903: "+getSwissValue[0]);
+                document.getElementById("longitude").append(thisLongitude+" | CH1903: "+getSwissValue[1]);
+                document.getElementById("canton").append(thisCanton);
+                document.getElementById("commune").append(thisCommune);// plus NPA entre ()
+                document.getElementById("commune").append("("+thisNPA+")");
+                document.getElementById("service").append(thisService);
+
+
+
+                var thisGeoUser = data["results"]["0"]["locations"]["0"]["adminArea5"]+"-"+data["results"]["0"]["locations"]["0"]["adminArea1"];
+                localStorage.setItem("geoUserMemo", JSON.stringify(thisGeoUser));
+                //localStorage.setItem("generalInformation", JSON.stringify(generalInfos));
+
+            }
+        });
+}
+
+getLocation();
+
+geoUser = localStorage.getItem("geoUserMemo");
+geoUser = geoUser.substring(1,geoUser.length); //Delete first character
+geoUser = geoUser.slice(0,-1); //Delete last character
+
+latitude = localStorage.getItem("userLatitude");
+longitude = localStorage.getItem("userLongitude");
+
+
+
+/*End geolocations part*/
+        
+       
         //initialisation of the map
             //center on sierre
             //default zoom level : 8
-            var mymap = L.map('mapOuSkier').setView([46.239556, 7.505549], 8);
+            var mymap = L.map('mapOuSkier').setView([latitude, longitude], 16);
             
             
             //Adding a map tile URL with contribution to MapQuest, maxzoom is 18
@@ -91,11 +207,12 @@ window.onload = function() {
                 maxZoom: 18
             }).addTo(mymap);
             
-            //Adding a marker on Sion
-            /*
-            var marker = L.marker([46.230976,	7.364266]).addTo(mymap);
+       
+            //Adding a marker 
+       
+            var marker = L.marker([latitude, longitude]).addTo(mymap);
             marker.bindPopup("Mil&egrave;ne Fauquex<br>City : Sion<br>Background : Master HES");
-            */
+            
             
             //Using getjson ajax jquery method to read the file
             $.getJSON( "../leaflet/data.json", function( data ) { //file URL
@@ -104,18 +221,20 @@ window.onload = function() {
                   
                 console.log(val);
                   //creating the marker with data from json file
-                  //var marker = L.marker([val.latitude,val.longitude]).addTo(mymap);
+                  var marker = L.marker([userLatitude,userLongitude]).addTo(mymap);
                   
                   //using circleMarker object
-                  var marker = L.circleMarker([val.latitude,val.longitude]).addTo(mymap);
+                  var marker = L.circleMarker([latitude,longitude]).addTo(mymap);
                   //set age to radius
                   marker.setRadius((val.age-25)*2);
                   
-                  //creating the popup
-                  marker.bindPopup(val.firstname+" "+val.lastname+"<br>City : "+val.city+"<br>Background : "+val.background);
+                  
               });
             });
         
+        
+       
+         
     }
     
     //Fermer le bloc de règle de jeu
