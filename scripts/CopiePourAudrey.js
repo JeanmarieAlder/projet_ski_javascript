@@ -63,7 +63,8 @@ window.onload = function() {
         
         //On Stock
         localStorage.setItem("user"+localStorage.length, s_serizalized);
-        console.log(localStorage);
+        
+        inputPseudo.value = "";
         
     }
     
@@ -151,21 +152,19 @@ window.onload = function() {
         document.getElementById("scorediv").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
         
+        //Remplissage du tableau des scores
         var n = localStorage.length;
         
         tableau = document.getElementById("scoreTableau");
-        tbody = document.createElement("tbody");
-        
-        //CORRIGER BUG AFFICHAGE PLUSIEURS FOIS 
-        
+        tbody = document.getElementById("tbodyScore");
+        tbody.innerHTML = "";
+        var arrayObj = trieScore();
         
         for(var i=0; i<n; i++){ //Lignes
-            console.log(i);
             var tr = document.createElement("tr");
-            var obj = JSON.parse(localStorage.getItem("user"+i))
-            console.log(obj);
+            var obj = arrayObj[i];
             
-            for(var j=0; j<4; j++){ //Colonnes
+            for(var j=0; j<3; j++){ //Colonnes
                 
                 var td = document.createElement("td");
                 
@@ -179,8 +178,6 @@ window.onload = function() {
                     case 2 :
                         td.appendChild(document.createTextNode(obj.score))
                         break;
-                    case 3 : 
-                        td.appendChild(document.createTextNode(obj.niveau))
                 }
                 
                 tr.appendChild(td);
@@ -188,8 +185,6 @@ window.onload = function() {
             
             tbody.appendChild(tr);
         }
-    
-        tableau.appendChild(tbody);
         
     }
     
@@ -214,23 +209,51 @@ window.onload = function() {
     //----------------------------------------------------------------------;
     //PARTIE GESTION DES SCORES---------------------------------------------;
     
-    function manageScore(){
-        //---------------------------------------------------Gestion score
-        var pseudo = inputPseudo.value;
-        var niveau = getDifficulty();
+    //Trie des scores pour déterminer le meilleur 
+    
+    //Event Listener sur choix niveau
+    var choixNiveau = document.getElementById("choixNiveau");
+    choixNiveau.addEventListener("click", function(){
+        clicScoreBtn();
+    });
+    
+    //Trie des scores 
+    function trieScore(){
+        var arrayScore = [];
+        var n = localStorage.length;
+        var level = 0;
+        var niv = choixNiveau.value;
         
-        var result = new Score(pseudo, score, niveau);
-        
-        //Enregistrement dans la BDD
-        localStorage.setItem('result', JSON.stringify(player));
-        const data = JSON.parse(localStorage.getItem('result'));
-        
-        for(var i=0; i<localStorage.length; i++){
-            console.log(localStorage.getItem(localStorage.key(i)));
+        switch(niv){
+            case "Facile" :
+                level = 4;
+                break;
+            case "Moyen" :
+                level = 6;
+                break;
+            case "Difficile" :
+                level = 8;
+                break;
+            case "Expert" :
+                level = 10;
         }
         
-        score = 0; //Remettre le score à 0
-        //---------------------------------------------------
+        //Récupération des objets  du bon niveau dans local storage
+        for(var i=0; i<n; i++){
+            var obj = JSON.parse(localStorage.getItem("user"+i))
+            
+            
+            if(obj.niveau == level){
+                arrayScore[i] = obj;
+            }
+        }
+        
+        arrayScore.sort(function (a,b) {
+            return b.score-a.score;
+        });
+        
+        return arrayScore;
+        
     }
     
     //----------------------------------------------------------------------
@@ -272,6 +295,9 @@ window.onload = function() {
     });
     
     function Game() {
+        
+    window.onload;    
+        
     score = 0;
     //Load canvas and context
     var cvas = document.getElementById("canvas"); //get reference to canvas

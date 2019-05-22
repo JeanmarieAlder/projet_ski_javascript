@@ -83,3 +83,7 @@ th, td{
     height: 500px;
     width: 500px;
 }
+
+#choixNiveau{
+    margin-bottom: 30px;
+}
