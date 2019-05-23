@@ -43,7 +43,6 @@ window.onload = function() {
 
         //Recupération du score et affichage
         inputScore.value = score;
-        //inputPseudo.value = ""; //Remettre vide l'input 
     }
     
     //Fermer player
@@ -78,6 +77,7 @@ window.onload = function() {
     function clicOuSkier(){
         document.getElementById("ouskier").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
+        
         
          /*Geolocation part*/
 var geoUser = "";
@@ -234,9 +234,6 @@ longitude = localStorage.getItem("userLongitude");
 
 
 /*End geolocations part*/
-        
-       
-        
          
     }
     
@@ -274,13 +271,14 @@ longitude = localStorage.getItem("userLongitude");
         document.getElementById("scorediv").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
         
-        //Remplissage du tableau des scores
-        var n = localStorage.length;
-        
         tableau = document.getElementById("scoreTableau");
         tbody = document.getElementById("tbodyScore");
         tbody.innerHTML = "";
+        
         var arrayObj = trieScore();
+        var n = arrayObj.length;
+        console.log(arrayObj);
+        console.log(n);
         
         for(var i=0; i<n; i++){ //Lignes
             var tr = document.createElement("tr");
@@ -324,11 +322,6 @@ longitude = localStorage.getItem("userLongitude");
     }
     
     //----------------------------------------------------------------------;
-    //PARTIE DRAG AND DROP--------------------------------------------------;
-    
-    //Voir dans le fichier html
-      
-    //----------------------------------------------------------------------;
     //PARTIE GESTION DES SCORES---------------------------------------------;
     
     //Trie des scores pour déterminer le meilleur 
@@ -363,10 +356,12 @@ longitude = localStorage.getItem("userLongitude");
         //Récupération des objets  du bon niveau dans local storage
         for(var i=0; i<n; i++){
             var obj = JSON.parse(localStorage.getItem("user"+i))
+            console.log(obj);
             
-            
-            if(obj.niveau == level){
-                arrayScore[i] = obj;
+            if(obj != null){
+                if(obj.niveau == level){
+                    arrayScore[i] = obj;
+                }
             }
         }
         
