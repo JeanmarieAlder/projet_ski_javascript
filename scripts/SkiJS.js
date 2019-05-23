@@ -84,56 +84,58 @@ window.onload = function() {
     function clicOuSkier(){
         document.getElementById("ouskier").style.display = "";
         document.getElementById("blocDemarrage").style.display = "none";
+
         
-        
-         /*Geolocation part*/
-var geoUser = "";
-var generalInformation = "";
-var userLatitude = "";
-var userLongitude = "";
+        /*Geolocation part*/
+        var geoUser = "";
+        var generalInformation = "";
+        var userLatitude = "";
+        var userLongitude = "";
+
+        if (localStorage.getItem("geoUserMemo") === null) { 
+            //if palmares is null we create it
+            localStorage.setItem("geoUserMemo", JSON.stringify(geoUser));
+        }
+
+        if (localStorage.getItem("generalInformation") === null) { 
+            //if palmares is null we create it
+            localStorage.setItem("generalInformation", JSON.stringify(generalInformation));
+        }
+
+        if (localStorage.getItem("userLatitude") === null) { 
+            //if palmares is null we create it
+            localStorage.setItem("userLatitude", JSON.stringify(userLatitude));
+        }
+
+        if (localStorage.getItem("userLongitude") === null) { 
+            //if palmares is null we create it
+            localStorage.setItem("userLongitude", JSON.stringify(userLongitude));
+        }
 
 
-if (localStorage.getItem("geoUserMemo") === null) { //if palmares is null we create it
-        localStorage.setItem("geoUserMemo", JSON.stringify(geoUser));
-}
-
-if (localStorage.getItem("generalInformation") === null) { //if palmares is null we create it
-        localStorage.setItem("generalInformation", JSON.stringify(generalInformation));
-}
-
-if (localStorage.getItem("userLatitude") === null) { //if palmares is null we create it
-        localStorage.setItem("userLatitude", JSON.stringify(userLatitude));
-}
-
-if (localStorage.getItem("userLongitude") === null) { //if palmares is null we create it
-        localStorage.setItem("userLongitude", JSON.stringify(userLongitude));
-}
-
-
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-   console.log("goeloc not supported");
-  }
-}
-
-
-function showPosition(position) {
-
-        var getJSON = function(url, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.responseType = 'json';
-        xhr.onload = function() {
-            var status = xhr.status;
-            if(status === 200){
-                callback(null, xhr.response);
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
             } else {
-                callback(status, xhr.response);
+                console.alert("goeloc not supported");
             }
-        };
-        xhr.send();
+        }
+
+        function showPosition(position) {
+
+            var getJSON = function(url, callback) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.responseType = 'json';
+                xhr.onload = function() {
+                var status = xhr.status;
+                if(status === 200){
+                    callback(null, xhr.response);
+                } else {
+                    callback(status, xhr.response);
+                }
+            };
+            xhr.send();
         };
 
         getJSON('http://open.mapquestapi.com/geocoding/v1/reverse?key=A5AOlcOT3M0rfeqBbrwMLBfHMZWDF1vZ&location='+position.coords.latitude+','+position.coords.longitude+'&includeRoadMetadata=true&includeNearestIntersection=true', function(err, data) {
@@ -204,8 +206,6 @@ function showPosition(position) {
        
             var marker = L.marker([thisLatitude, thisLongitude]).addTo(mymap);
             
-            
-            
             //Using getjson ajax jquery method to read the file
             $.getJSON( "../leaflet/data.json", function( data ) { //file URL
                 
@@ -221,26 +221,22 @@ function showPosition(position) {
                   console.log(latitude, longitude);
                   
               });
-            });
-        
-        
-       
-            
+            }); 
         });
-}
+        }
 
-getLocation();
+        getLocation();
 
-geoUser = localStorage.getItem("geoUserMemo");
-geoUser = geoUser.substring(1,geoUser.length); //Delete first character
-geoUser = geoUser.slice(0,-1); //Delete last character
+        geoUser = localStorage.getItem("geoUserMemo");
+        geoUser = geoUser.substring(1,geoUser.length); //Delete first character
+        geoUser = geoUser.slice(0,-1); //Delete last character
 
-latitude = localStorage.getItem("userLatitude");
-longitude = localStorage.getItem("userLongitude");
+        latitude = localStorage.getItem("userLatitude");
+        longitude = localStorage.getItem("userLongitude");
 
 
 
-/*End geolocations part*/
+        /*End geolocations part*/
          
     }
     
@@ -362,7 +358,7 @@ longitude = localStorage.getItem("userLongitude");
         
         //Récupération des objets  du bon niveau dans local storage
         for(var i=0; i<n; i++){
-            var obj = JSON.parse(localStorage.getItem("user"+i))
+            var obj = JSON.parse(localStorage.getItem("user"+i));
             console.log(obj);
             
             if(obj != null){
