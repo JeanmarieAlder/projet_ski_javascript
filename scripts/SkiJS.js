@@ -171,13 +171,54 @@ function showPosition(position) {
                 document.getElementById("commune").append("("+thisNPA+")");
                 document.getElementById("service").append(thisService);
 
-
-
+               
                 var thisGeoUser = data["results"]["0"]["locations"]["0"]["adminArea5"]+"-"+data["results"]["0"]["locations"]["0"]["adminArea1"];
                 localStorage.setItem("geoUserMemo", JSON.stringify(thisGeoUser));
                 //localStorage.setItem("generalInformation", JSON.stringify(generalInfos));
 
             }
+            
+            
+            //initialisation of the map
+            //center on sierre
+            //default zoom level : 8
+        
+            var mymap = L.map('mapOuSkier').setView([thisLatitude, thisLongitude], 16);
+            
+            
+            //Adding a map tile URL with contribution to MapQuest, maxzoom is 18
+            L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Data, imagery and map information provided by MapQuest, <a href="http://www.openstreetmap.org/copyright">OpenStreetMap </a> and contributors, OdBl.',
+                maxZoom: 18
+            }).addTo(mymap);
+            
+       
+            //Adding a marker 
+       
+            var marker = L.marker([thisLatitude, thisLongitude]).addTo(mymap);
+            
+            
+            
+            //Using getjson ajax jquery method to read the file
+            $.getJSON( "../leaflet/data.json", function( data ) { //file URL
+                
+              $.each( data, function(key, val) { //loop on data
+                  
+                console.log(val);
+                  //creating the marker with data from json file
+                  var marker = L.marker([latitude,longitude]).addTo(mymap);
+                  
+                  //using circleMarker object
+                  var marker = L.circleMarker([thisLatitude,thisLongitude]).addTo(mymap);
+                 
+                  console.log(latitude, longitude);
+                  
+              });
+            });
+        
+        
+       
+            
         });
 }
 
@@ -195,45 +236,7 @@ longitude = localStorage.getItem("userLongitude");
 /*End geolocations part*/
         
        
-        //initialisation of the map
-            //center on sierre
-            //default zoom level : 8
-            var mymap = L.map('mapOuSkier').setView([latitude, longitude], 16);
-            
-            
-            //Adding a map tile URL with contribution to MapQuest, maxzoom is 18
-            L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'Data, imagery and map information provided by MapQuest, <a href="http://www.openstreetmap.org/copyright">OpenStreetMap </a> and contributors, OdBl.',
-                maxZoom: 18
-            }).addTo(mymap);
-            
-       
-            //Adding a marker 
-       
-            var marker = L.marker([latitude, longitude]).addTo(mymap);
-            marker.bindPopup("Mil&egrave;ne Fauquex<br>City : Sion<br>Background : Master HES");
-            
-            
-            //Using getjson ajax jquery method to read the file
-            $.getJSON( "../leaflet/data.json", function( data ) { //file URL
-                
-              $.each( data, function(key, val) { //loop on data
-                  
-                console.log(val);
-                  //creating the marker with data from json file
-                  var marker = L.marker([userLatitude,userLongitude]).addTo(mymap);
-                  
-                  //using circleMarker object
-                  var marker = L.circleMarker([latitude,longitude]).addTo(mymap);
-                  //set age to radius
-                  marker.setRadius((val.age-25)*2);
-                  
-                  
-              });
-            });
         
-        
-       
          
     }
     
