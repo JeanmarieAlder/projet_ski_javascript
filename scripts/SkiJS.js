@@ -411,11 +411,9 @@ longitude = localStorage.getItem("userLongitude");
        ClicFin(); 
     });
     
-    function Game() {
-        
-    window.onload;    
-        
-    score = 0;
+    /*eslint-env browser*/
+
+function Game () {
     //Load canvas and context
     var cvas = document.getElementById("canvas"); //get reference to canvas
     var ctx = cvas.getContext("2d"); //get  context of the page
@@ -454,6 +452,14 @@ longitude = localStorage.getItem("userLongitude");
     var flagsRedReady = false;
     var wood = new Image();
     var woodReady = false;
+    
+    var scoreSound = new Audio();
+    var scoreSoundReady = false;
+    
+    scoreSound.onload = function() {
+        scoreSoundReady = true;
+    }
+    scoreSound.src = "../game/audio/score.mp3";
 
     //Make sure images are loaded before starting the page
     bg.onload = function () {
@@ -554,7 +560,7 @@ longitude = localStorage.getItem("userLongitude");
     var leftKeyPressed = false;
     var rightKeyPressed = false;
 
-    //var score = 0;
+    score = 0;
     var scoreCap = 10000;
     var bgY = 0; //background Y position (x is always 0)
     
@@ -717,7 +723,7 @@ longitude = localStorage.getItem("userLongitude");
             bgY = 0 - (-512 - bgY);
             initial = false;
         }
-        if(player.speed < 10 && !(player.gameOver) && scoreCap < score){
+        if(player.speed < 10 && player.speed != 0 && !(player.gameOver) && scoreCap < score){
             player.speed ++;
             scoreCap += 10000;
         }
@@ -800,8 +806,8 @@ longitude = localStorage.getItem("userLongitude");
     {
         ctx.fillText("GAME OVER", 97, 240);
         
-        requestAnimationFrame(gameOver);
         
+        requestAnimationFrame(gameOver);
     }
     
     //checks if the player touches an obstacle or doesn't pass on a door
@@ -883,6 +889,7 @@ longitude = localStorage.getItem("userLongitude");
         if(py <= mly && py >= my){
             if(px >= mx && plx <= mx + flagsBlue.width) {
                 score += 2000;
+                scoreSound.play();
                 return false; //this is ok!
             }else{
                 //console.log("GAME OVER !!!!!!");

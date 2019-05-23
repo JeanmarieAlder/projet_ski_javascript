@@ -316,7 +316,7 @@
         }
         if(player.gameOver){
             //game over side
-            console.log(Math.floor(player.goFrame));
+            //console.log(Math.floor(player.goFrame));
             switch(Math.floor(player.goFrame)) {
                 case 0:
                     ctx.drawImage(skierFront, player.posX, player.posY)
@@ -359,7 +359,7 @@
             }
             //Check if player is game over
             if(checkGameOver()){
-                console.log("GO");
+                //console.log("GO");
                 player.gameOver = true;
                 player.breakSpeed = player.speed;
                 player.speed = 0;
@@ -459,7 +459,7 @@
           && ((px >= mx && px <= mx + mlx) || 
               (plx >= mx && plx <= mx + mlx) ||
               (px <= mx && plx >= mx + mlx))){
-            console.log("GAME OVER !!!!!!!!!!!!!!!");
+            //console.log("GAME OVER !!!!!!!!!!!!!!!");
             return true; //this is game over
         }
         return false; //this is ok!
@@ -479,7 +479,7 @@
                 scoreSound.play();
                 return false; //this is ok!
             }else{
-                console.log("GAME OVER !!!!!!");
+                //console.log("GAME OVER !!!!!!");
                 return true; //this is game over
             }
         }
