@@ -23,6 +23,7 @@ window.onload = function() {
     var btnfin = document.getElementById("finbtn");
     var inputScore = document.getElementById("scoreField");
     var inputPseudo = document.getElementById("pseudo");
+    var btnSortir = document.getElementById("retour");
     
     //Initialisation listener
     redCross.addEventListener("click", clicRedCross);
@@ -35,6 +36,12 @@ window.onload = function() {
     redCrossScore.addEventListener("click", clicRedCrossScore);
     redCossOuSkier.addEventListener("click", clicRedCrossOuSkier);
     btnvaliderplayer.addEventListener("click", clicValiderPlayer);
+    btnSortir.addEventListener("click", clicGoBack);
+    
+    //Revenir au PP1
+    function clicGoBack(){
+        window.location.href = "../description.html";
+    }
     
     //Fin du jeu
     function ClicFin(){
